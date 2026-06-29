@@ -1,10 +1,15 @@
 # STATUS — Alkimia · p001 Site + Catálogo web embutido
-Atualizado: 2026-06-28 (sessão responsivo mobile — drawer godaylight + hero mobile corrigido — handoff p/ chat novo).
+Atualizado: 2026-06-29 (sessão web — GitHub Pages configurado, drawer redesenhado como painel flutuante compacto).
 
 Linha 3 (Site/Landing). Projeto VIVO, Fase 3 · PRODUÇÃO — site v3 iterado ao vivo com o Marcos.
 Arquivo: `index.html` (backup v2 em `index-v2-baseline.html`). Servidor: `.claude/launch.json` → "alkimia" (npx serve, porta 4321).
 Identidade: P&B neutro alto contraste (#fff/#0a0a0a/cinzas). Cor só nas ESTAMPAS dos clientes e no mapa.
 ⚠️ Preview headless CONGELA animações/timers/transições e o screenshot trava com vídeo tocando → validar por DOM (eval), não por screenshot; ver de verdade no Chrome real.
+
+## FEITO NESTA SESSÃO (2026-06-29 — sessão web Claude Code)
+- **Repositório pushado ao GitHub** (`guarucriativo-ux/A-fabrica`, público). Branch `gh-pages` tem o site ao vivo.
+- **GitHub Pages:** repositório tornado público; branch `gh-pages` com `index.html` + assets. URL: `https://guarucriativo-ux.github.io/A-fabrica/`. **⚠️ Pendente:** ativar em Settings > Pages (source: gh-pages / root) — Marcos precisa fazer manualmente.
+- **Drawer redesenhado:** saiu de tela cheia (`inset:0`) para painel flutuante compacto (244px, `top:74px right:16px`, border-radius 14px, sombra sutil, anima com scale+fade). Backdrop invisível fecha ao clicar fora. Fonte 13.5px, padding 13px. CTA com border-radius 8px. Commitado em master e gh-pages.
 
 ## FEITO NESTA SESSÃO (2026-06-28 tarde)
 - **Hero mobile:** imagem aparece PRIMEIRO (acima do texto), produtos centralizados com zoom/crop (`object-fit:cover`). Gradiente fade na base da imagem para casar com entrada do texto. Todos os textos do hero centralizados no mobile.
@@ -13,7 +18,7 @@ Identidade: P&B neutro alto contraste (#fff/#0a0a0a/cinzas). Cor só nas ESTAMPA
 - **Drawer hambúrguer:** redesignado ao estilo godaylight.com (referência do Marcos). Organizer especificou; implementado. HTML: `.drawer-head` (logo + ✕ SVG) + `.drawer-body` (nav com chevrons + CTA full-width preto). Links Archivo 500, 20px, sem uppercase; chevron `›` desliza no hover. `.drawer-cta` preto full-width na base. Está pendente VALIDAÇÃO visual no celular real.
 
 ## ESTADO ATUAL DO SITE (de cima pra baixo)
-- **Nav:** pill BRANCA flutuante centralizada (godaylight). ALKIMIA · Sobre · Produtos · Processo · Contato · botão **Orçamento**. Mobile (<=860px): hambúrguer na pill → **drawer full-screen branco estilo godaylight** (`.drawer-head` logo+✕; links Archivo 500 20px com chevron `›`; `.drawer-cta` preto full-width; fecha ao clicar/ESC; trava scroll; a11y PASS).
+- **Nav:** pill BRANCA flutuante centralizada (godaylight). ALKIMIA · Sobre · Produtos · Processo · Contato · botão **Orçamento**. Mobile (<=860px): hambúrguer na pill → **painel flutuante compacto** (244px, canto sup-dir, border-radius 14px, sombra, anima scale+fade; links Archivo 500 13.5px com chevron; CTA preto com border-radius 8px; fecha ao clicar fora/ESC; backdrop invisível; a11y PASS).
 - **Hero:** FOTO full-bleed `assets/hero-slides/hero-2.png` (pilha de peças c/ estampa de onda sonora COLORIDA; origem `fotos-site/hero_2.png`). SEM filtro P&B (sem classe `.ph`). ⚠️ PNG 1.96MB — otimizar. Texto pôster Archivo Black por cima: **"Vestimos equipes que levam a imagem a sério."** + apoio + "Fale com a Alkimia". Stagger + Ken Burns.
 - **Contador:** "DESDE 2021 · **+50.000** · camisetas produzidas para equipes". Conta ao entrar (rAF, **2s**). ⚠️ 50.000 = número do Marcos, CONFIRMAR c/ Gustavo.
 - **Clientes (marquee):** faixa PRETA, logos BRANCOS 132px, auto-scroll + segue o mouse (hover pausa). `samba-da-rosa` removido.
