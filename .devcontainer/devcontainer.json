@@ -1,0 +1,24 @@
+{
+  "name": "A fábrica",
+  "image": "mcr.microsoft.com/devcontainers/node:22",
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && npx serve --version",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ritwickdey.LiveServer"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "forwardPorts": [4321],
+  "portsAttributes": {
+    "4321": {
+      "label": "Alkimia site",
+      "onAutoForward": "openPreview"
+    }
+  }
+}
