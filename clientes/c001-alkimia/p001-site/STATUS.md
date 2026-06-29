@@ -36,8 +36,9 @@ Identidade: P&B neutro alto contraste (#fff/#0a0a0a/cinzas). Cor só nas ESTAMPA
 - a11y (não bloqueiam): marquee WCAG 2.2.2 (pausa por teclado/touch) vs "motion sempre ativo".
 
 ## PRÓXIMO (retomar aqui)
-0. **Validar drawer no celular real** — confirmar que está bom visualmente. Se não estiver, chamar organizer novamente com screenshot.
-1. **Continuar responsivo mobile** — restam outras seções para revisar no mobile (seção 01 "Quem é a Alkimia", 03 Acabamentos, 04 Como funciona, 05 Mapa, CTA, footer, social rail). Iniciar novo chat e ler este STATUS.
+0. **GitHub Pages — ativar:** Settings → Pages → branch `gh-pages` → `/root` → Save. URL final: `guarucriativo-ux.github.io/A-fabrica`. Branch já publicada, só falta ativar no GitHub.
+1. **Validar drawer no celular real** — após Pages ativo, abrir a URL e confirmar drawer mobile visualmente. Drawer foi reescrito (flex:1 removido do nav, margin-top:auto no CTA, padding:26px nos links).
+2. **Continuar responsivo mobile** — restam: seção 01 "Quem é a Alkimia", 03 Acabamentos, 04 Como funciona, 05 Mapa, CTA, footer, social rail.
 2. **Hero carrossel:** Marcos gera imagens 2–4 no ChatGPT (prompts SEM texto em `hero-prompts-e-copy.md`) → `assets/hero-slides/` → montar carrossel (foto+copy trocam juntas). Copy: `copy-hero-carrossel.md`.
 3. **catalogo.html:** construir (oculto/noindex, grid + página de produto). Hoje link "Catálogo →" (footer) dá 404; botão de Produtos foi removido (definir onde recolocar). Docs: `arquitetura-catalogo.md` · `copy-catalogo-web.md` · `schema-produtos.md`.
 4. Resolver as pendências confirmadas c/ Gustavo (50.000 / TikTok).
