@@ -129,7 +129,16 @@
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
       "Bash(git rm *)",
-      "Bash(Remove-Item -Recurse -Force .git)"
+      "Bash(Remove-Item -Recurse -Force .git)",
+      "Bash(git rebase *)",
+      "Bash(git stash *)",
+      "Bash(git checkout *)",
+      "Bash(git commit -m 'fix: menu mobile — corrige drawer-nav com position:fixed herdado do seletor nav{} *)",
+      "Bash(git pull *)",
+      "Bash(git commit *)",
+      "Bash(gh repo *)",
+      "Bash(git ls-tree *)",
+      "Bash(git fetch *)"
     ]
   }
 }
