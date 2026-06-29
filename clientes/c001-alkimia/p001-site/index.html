@@ -48,28 +48,31 @@ nav .wrap{display:inline-flex;align-items:center;gap:34px;width:auto;max-width:c
 body.nav-open .navtoggle span{background:transparent}
 body.nav-open .navtoggle span::before{top:0;transform:rotate(45deg)}
 body.nav-open .navtoggle span::after{top:0;transform:rotate(-45deg)}
-/* drawer mobile — desdobramento da pill, fundo branco */
-.drawer{position:fixed;inset:0;z-index:61;background:var(--paper);display:flex;flex-direction:column;padding:0;gap:0;
-  opacity:0;visibility:hidden;transform:translateX(100%);transition:transform .38s cubic-bezier(.4,0,.2,1),opacity .18s ease,visibility .38s}
-body.nav-open .drawer{opacity:1;visibility:visible;transform:translateX(0)}
-body.nav-open{overflow:hidden}
-/* cabeçalho interno do drawer: alinhado com a pill (mesma altura ~72px) */
-.drawer-head{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 24px;border-bottom:1px solid var(--hair);flex-shrink:0}
-.drawer-brand{font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
-.drawer-close{display:grid;place-items:center;width:44px;height:44px;background:none;border:0;cursor:pointer;color:var(--ink);border-radius:8px;transition:background .15s ease;margin-right:-8px}
-.drawer-close:hover{background:var(--hair)}
-.drawer-close svg{width:20px;height:20px;flex-shrink:0}
-/* área de rolagem: links + CTA */
-.drawer-body{display:flex;flex-direction:column;flex:1;overflow-y:auto;padding:0 0 28px}
-.drawer-nav{display:flex;flex-direction:column}
-.drawer-nav a{display:flex;align-items:center;justify-content:space-between;font-family:'Archivo',sans-serif;font-weight:500;font-size:20px;letter-spacing:-.01em;color:var(--ink);padding:26px 24px;border-bottom:1px solid var(--hair);transition:background .15s ease,color .15s ease}
+/* drawer mobile — painel flutuante compacto, nasce abaixo da pill */
+.drawer{position:fixed;top:74px;right:16px;width:244px;z-index:61;background:var(--paper);display:flex;flex-direction:column;padding:0;gap:0;
+  border-radius:14px;border:1px solid var(--hair);box-shadow:0 16px 48px rgba(0,0,0,.13),0 2px 8px rgba(0,0,0,.07);
+  opacity:0;visibility:hidden;transform:translateY(-10px) scale(0.97);transform-origin:top right;
+  transition:transform .22s cubic-bezier(.4,0,.2,1),opacity .18s ease,visibility .22s}
+body.nav-open .drawer{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+/* backdrop leve para fechar ao clicar fora — z-index:59 fica abaixo da nav pill */
+.drawer-backdrop{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:59}
+body.nav-open .drawer-backdrop{display:block}
+/* cabeçalho: oculto — o próprio hambúrguer (já vira ✕) serve de fechar */
+.drawer-head{display:none}
+.drawer-brand{display:none}
+.drawer-close{display:none}
+/* área: links + CTA */
+.drawer-body{display:flex;flex-direction:column;padding:0 0 14px}
+/* position:static reseta o position:fixed herdado do seletor global nav{} */
+.drawer-nav{display:flex;flex-direction:column;position:static;top:auto;left:auto;right:auto;background:transparent;padding:0;z-index:auto}
+.drawer-nav a{display:flex;align-items:center;justify-content:space-between;font-family:'Archivo',sans-serif;font-weight:500;font-size:13.5px;letter-spacing:.01em;color:var(--ink);padding:13px 18px;border-bottom:1px solid var(--hair);transition:background .15s ease}
 .drawer-nav a:first-child{border-top:1px solid var(--hair)}
-.drawer-nav a:hover{background:var(--paper2);color:var(--ink)}
-.drawer-chev{width:20px;height:20px;flex-shrink:0;color:var(--mut);transition:transform .2s ease}
+.drawer-nav a:hover{background:var(--paper2)}
+.drawer-chev{width:15px;height:15px;flex-shrink:0;color:var(--mut);transition:transform .2s ease}
 .drawer-nav a:hover .drawer-chev{transform:translateX(3px);color:var(--ink)}
-/* CTA: margin-top:auto pina na base do flex container */
-.drawer-cta{display:block;margin:auto 24px 0;padding:18px 24px;background:var(--ink);color:var(--paper);font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;text-align:center;text-transform:uppercase;transition:opacity .18s ease}
-.drawer-cta:hover{opacity:.88}
+/* CTA */
+.drawer-cta{display:block;margin:12px 14px 0;padding:12px 18px;background:var(--ink);color:var(--paper);font-family:'Archivo',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.06em;text-align:center;text-transform:uppercase;border-radius:8px;transition:opacity .18s ease}
+.drawer-cta:hover{opacity:.82}
 
 .btn{position:relative;z-index:0;overflow:hidden;display:inline-flex;align-items:center;gap:9px;
   background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;text-transform:uppercase;
@@ -400,6 +403,7 @@ a:focus-visible,button:focus-visible,iframe:focus-visible{outline:2px solid var(
     <button class="navtoggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="drawer"><span aria-hidden="true"></span></button>
   </div>
 </nav>
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
 <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu de navegação">
   <div class="drawer-head">
     <span class="drawer-brand" aria-hidden="true">Alkimia</span>
@@ -735,6 +739,8 @@ if(!RM){document.querySelectorAll('.btn').forEach(b=>{
   const tgl=document.querySelector('.navtoggle');
   const drawer=document.getElementById('drawer');
   if(!tgl||!drawer) return;
+  const backdrop=document.getElementById('drawer-backdrop');
+  if(backdrop) backdrop.addEventListener('click',()=>setOpen(false));
   const bg=[].slice.call(document.body.children).filter(el=>el!==drawer && el.tagName!=='NAV' && el.tagName!=='SCRIPT');
   const focusables=()=>[].slice.call(drawer.querySelectorAll('a[href],button:not([disabled])'));
   const isOpen=()=>document.body.classList.contains('nav-open');
