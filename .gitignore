@@ -1,0 +1,18 @@
+# Mídia bruta e arquivos grandes (manter local ou em Drive/OneDrive)
+clientes/*/videos_insta/
+clientes/*/fotos-videos-base/
+clientes/*/fotos-site-antigo/
+clientes/*/pesquisa-norte/fotos/
+clientes/*/Referencias visuais/*.pdf
+clientes/*/Referencias visuais/*.PDF
+
+# Cache e temporários
+.claude/cache/
+.claude/todos/
+*.tmp
+*.log
+
+# Sistema
+Thumbs.db
+.DS_Store
+desktop.ini

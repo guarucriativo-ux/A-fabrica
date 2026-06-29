@@ -1,0 +1,39 @@
+PROMPT FINAL — Carrossel Alkimia (loop completo) — gerado 2026-06-27
+Tema: "A camiseta do set é currículo da produtora."
+Uso: colar no chat da Alkimia no ChatGPT (com PRIMER carregado) + anexar a referência visual.
+Saída esperada: prancha 4:5, grid 2×2 de células 4:5, gutters brancas 16px limpas → passar ao Claude pra crop em 1080×1350.
+====================================================================
+
+Você já conhece a Alkimia pelo PRIMER carregado. Use a REFERÊNCIA VISUAL anexada como parâmetro de direção — composição, luz, ritmo, linguagem fotográfica — mas NÃO copie. Aplique em todos os 4 slides com coerência.
+
+ESPECIFICAÇÃO TÉCNICA
+Canvas: proporção 4:5 (portrait)
+Grid: 2 colunas × 2 linhas = 4 células
+Cada célula: proporção 4:5
+Gutter: 16px de fundo branco sólido uniforme entre células — SEM marcas de corte, SEM cruzes, SEM símbolos gráficos
+Fundo geral: branco
+
+INVARIANTE DE MARCA
+Estritamente monocromático: preto, branco, cinzas neutros. Nenhuma cor de acento, nenhum tom quente/frio. Estética editorial sóbria. Produto é o herói visual. Espaço negativo generoso. Sem decoração, brilhos, efeitos.
+
+COPY DOS SLIDES (renderizar exatamente)
+SLIDE 1 (sup. esquerdo)
+Headline: "Sua produção é impecável no monitor. E em campo?"
+Corpo: "Você controla cada frame na tela. A imagem da sua equipe no set, ninguém dirigiu."
+
+SLIDE 2 (sup. direito)
+Headline: "No set, todo mundo está olhando."
+Corpo: "Cliente acompanha, talento circula, agência observa, vira making-of. A equipe vestida é a mídia que ninguém briefou."
+
+SLIDE 3 (inf. esquerdo)
+Headline: "A diferença aparece de perto."
+Corpo: "Caimento, gramatura e a técnica certa para cada tecido: serigrafia, DTF ou bordado, conforme o acabamento que a peça pede."
+
+SLIDE 4 (inf. direito)
+Headline: "Quem leva imagem a sério já veste Alkimia."
+Corpo: "Canon, Shure, Cinemateca, Hornet, Colateral Films. A próxima produção pode ser a sua."
+CTA: "Fale com a Alkimia. WhatsApp (11) 98392-6323"
+
+INSTRUÇÃO DE GERAÇÃO
+Gere a imagem como uma única prancha 4:5 com as 4 células dispostas em grid 2×2, separadas por gutters brancos de 16px uniformes. O crop será feito por coordenadas matemáticas — gutters precisam ser limpos e precisos.
+Mantenha coerência visual entre todos os slides: mesma luz, mesma linguagem, mesmo ritmo. Dirija-se ao público profissional de produção audiovisual e moda. A referência é seu guia de tom e composição.

@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alkimia Produções — Confecção em São Paulo desde 2021</title>
+<meta name="description" content="Confecção familiar em São Paulo. Corte, serigrafia e DTF feitos dentro de casa. Camisetas, moletons e ecobags personalizadas com acabamento de campanha. A partir de 30 peças, envio nacional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ffffff; --paper2:#f3f3f3; --paper3:#e9e9e9;
+  --ink:#0a0a0a; --ink2:#262626; --mut:#6a6a6a;
+  --line:rgba(0,0,0,.18); --hair:rgba(0,0,0,.09);
+  --black:#000000;
+  --maxw:1240px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.55}
+::selection{background:var(--ink);color:var(--paper)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.mono{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.14em;font-size:11px}
+/* P&B puro: toda fotografia entra monocromática */
+.ph{filter:grayscale(1) contrast(1.1) brightness(1.02)}
+
+
+/* ---------- nav (pill branca flutuante, estilo godaylight) ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:60;background:transparent;padding:14px 16px;display:flex;justify-content:center}
+nav .wrap{display:inline-flex;align-items:center;gap:34px;width:auto;max-width:calc(100% - 32px);height:48px;margin:0;
+  padding:0 8px 0 22px;background:#fff;border:1px solid var(--hair);border-radius:12px;box-shadow:0 8px 26px rgba(0,0,0,.10)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .nm{font-family:'Archivo',sans-serif;font-weight:800;font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
+.navlinks{display:flex;gap:24px;align-items:center}
+.navlinks a:not(.btn){position:relative;font-family:'Archivo',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:11.5px;color:var(--ink)}
+.navlinks a:not(.btn)::after{content:"";position:absolute;left:0;bottom:-5px;height:2px;width:0;background:currentColor;transition:width .25s ease}
+.navlinks a:not(.btn):hover::after{width:100%}
+/* hambúrguer — nasce na pill, só aparece no mobile (display ligado no bloco responsivo) */
+.navtoggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;margin:0 -6px 0 0;padding:0;background:none;border:0;cursor:pointer;color:var(--ink)}
+.navtoggle span{position:relative;width:20px;height:2px;background:currentColor;border-radius:2px;transition:background .2s ease}
+.navtoggle span::before,.navtoggle span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:currentColor;border-radius:2px;transition:transform .3s ease,top .3s ease}
+.navtoggle span::before{top:-6px}
+.navtoggle span::after{top:6px}
+body.nav-open .navtoggle span{background:transparent}
+body.nav-open .navtoggle span::before{top:0;transform:rotate(45deg)}
+body.nav-open .navtoggle span::after{top:0;transform:rotate(-45deg)}
+/* drawer mobile — desdobramento da pill, fundo branco */
+.drawer{position:fixed;inset:0;z-index:61;background:var(--paper);display:flex;flex-direction:column;padding:0;gap:0;
+  opacity:0;visibility:hidden;transform:translateX(100%);transition:transform .38s cubic-bezier(.4,0,.2,1),opacity .18s ease,visibility .38s}
+body.nav-open .drawer{opacity:1;visibility:visible;transform:translateX(0)}
+body.nav-open{overflow:hidden}
+/* cabeçalho interno do drawer: alinhado com a pill (mesma altura ~72px) */
+.drawer-head{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 24px;border-bottom:1px solid var(--hair);flex-shrink:0}
+.drawer-brand{font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.drawer-close{display:grid;place-items:center;width:44px;height:44px;background:none;border:0;cursor:pointer;color:var(--ink);border-radius:8px;transition:background .15s ease;margin-right:-8px}
+.drawer-close:hover{background:var(--hair)}
+.drawer-close svg{width:20px;height:20px;flex-shrink:0}
+/* área de rolagem: links + CTA */
+.drawer-body{display:flex;flex-direction:column;flex:1;overflow-y:auto;padding:0 0 28px}
+.drawer-nav{display:flex;flex-direction:column}
+.drawer-nav a{display:flex;align-items:center;justify-content:space-between;font-family:'Archivo',sans-serif;font-weight:500;font-size:20px;letter-spacing:-.01em;color:var(--ink);padding:26px 24px;border-bottom:1px solid var(--hair);transition:background .15s ease,color .15s ease}
+.drawer-nav a:first-child{border-top:1px solid var(--hair)}
+.drawer-nav a:hover{background:var(--paper2);color:var(--ink)}
+.drawer-chev{width:20px;height:20px;flex-shrink:0;color:var(--mut);transition:transform .2s ease}
+.drawer-nav a:hover .drawer-chev{transform:translateX(3px);color:var(--ink)}
+/* CTA: margin-top:auto pina na base do flex container */
+.drawer-cta{display:block;margin:auto 24px 0;padding:18px 24px;background:var(--ink);color:var(--paper);font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;text-align:center;text-transform:uppercase;transition:opacity .18s ease}
+.drawer-cta:hover{opacity:.88}
+
+.btn{position:relative;z-index:0;overflow:hidden;display:inline-flex;align-items:center;gap:9px;
+  background:var(--ink);color:var(--paper);font-family:'Space Mono',monospace;text-transform:uppercase;
+  font-weight:700;font-size:11.5px;letter-spacing:.1em;padding:13px 22px;
+  border:1px solid var(--ink);cursor:pointer;
+  transition:color .35s ease,border-color .35s ease}
+/* preenchimento que nasce do ponto do mouse e expande (segue o cursor) */
+.btn::before{content:"";position:absolute;z-index:-1;left:var(--mx,50%);top:var(--my,50%);
+  width:300%;aspect-ratio:1;border-radius:50%;background:var(--paper);
+  transform:translate(-50%,-50%) scale(0);
+  transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.btn:hover::before{transform:translate(-50%,-50%) scale(1)}
+.btn:hover{color:var(--ink)}
+.btn .arw{transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.btn:hover .arw{transform:translateX(5px)}
+/* ghost: outline escuro → preenche de tinta */
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost::before{background:var(--ink)}
+.btn-ghost:hover{color:var(--paper);border-color:var(--ink)}
+/* light: branco → preenche de tinta (usado sobre preto) */
+.btn-lt{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.btn-lt::before{background:var(--ink)}
+.btn-lt:hover{color:var(--paper)}
+/* line: outline claro p/ nav preto → preenche de branco */
+.btn-line{background:transparent;color:#fff;border-color:rgba(255,255,255,.42);font-size:12px;padding:9px 16px}
+.btn-line::before{background:#fff}
+.btn-line:hover{color:var(--ink);border-color:#fff}
+/* menu: botão Orçamento = pill preenchido compacto (nosso estilo) com efeito de cursor */
+nav .btn{border-radius:9px;padding:9px 16px;font-size:11px}
+/* botões do hero: mesma velocidade do menu */
+.hero-cta .btn::before{transition:transform 1.05s cubic-bezier(.22,.61,.36,1)}
+.hero-cta .btn{transition:color .85s ease,border-color .85s ease}
+.hero-cta .btn .arw{transition:transform .75s cubic-bezier(.22,.61,.36,1)}
+
+/* ---------- hero (foto full-bleed, texto por cima) ---------- */
+.hero{position:relative;padding-top:0;background:var(--paper)}
+.hero-media{position:relative;overflow:hidden;background:var(--paper3);min-height:460px}
+.hero-media picture{display:block;width:100%}
+.hero-media img{display:block;width:100%;height:auto}
+.hero-overlay{position:absolute;inset:0;z-index:2;display:flex;align-items:center}
+.hero-overlay .wrap{width:100%}
+.hero-txt{max-width:600px}
+.hero-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.72) 26%,rgba(255,255,255,.15) 50%,rgba(255,255,255,0) 64%)}
+@media(max-width:900px){
+  /* layout empilhado: foto em cima, texto embaixo */
+  .hero{display:flex;flex-direction:column}
+  .hero-overlay{position:static;padding:48px 0 40px}
+  .hero-txt{max-width:none;text-align:center}
+  .hero h1{text-align:center}
+  .hero-sub{text-align:center;max-width:none}
+  .hero-cta{justify-content:center}
+  /* foto com height fixo e zoom centralizado nos produtos */
+  .hero-media{min-height:0;height:72vw;max-height:380px}
+  .hero-media picture{display:block;width:100%;height:100%}
+  .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center;animation:none}
+  /* fade na base da imagem para casar com a entrada do texto */
+  .hero-media::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,transparent 30%,rgba(255,255,255,.55) 68%,var(--paper) 100%);pointer-events:none}
+  .hero-scrim{display:none}
+}
+@media(max-width:880px){
+  /* vídeo da seção 02 aparece antes do texto */
+  #produtos .split .media{order:-1}
+}
+.hero h1{font-family:'Archivo Black','Archivo',sans-serif;font-weight:400;text-transform:uppercase;
+  font-size:clamp(34px,4.6vw,64px);line-height:.92;letter-spacing:-.025em;color:var(--ink)}
+.hero-sub{margin:22px 0 28px;font-size:clamp(15px,1.4vw,17px);color:var(--ink2);max-width:30em}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap}
+/* ken burns na foto do hero (intro) */
+@keyframes kenburns{from{transform:scale(1.05)}to{transform:scale(1)}}
+.hero-media img{animation:kenburns 2.2s cubic-bezier(.2,.7,.2,1) forwards}
+
+/* contador — "desde 2021, +50.000 camisetas produzidas" */
+.counter{background:var(--paper);text-align:center;padding:72px 0}
+.counter-lead{color:var(--mut);margin-bottom:16px}
+.counter-num{font-family:'Archivo Black','Archivo',sans-serif;font-weight:400;font-size:clamp(60px,13vw,180px);line-height:.86;letter-spacing:-.045em;color:var(--ink);font-variant-numeric:tabular-nums}
+.counter-sub{margin-top:14px;font-family:'Archivo',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:clamp(13px,1.8vw,19px);color:var(--ink2)}
+
+/* ---------- clientes marquee ---------- */
+.clients{background:var(--black);padding:62px 0;overflow:hidden}
+.cl-eyebrow{margin-bottom:34px;color:#fff}
+.cl-eyebrow .ln{background:rgba(255,255,255,.3)}
+.marquee{display:flex;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.mq{display:flex;align-items:center;gap:150px;padding-right:150px;will-change:transform}
+.mq img{height:132px;width:auto;flex-shrink:0;filter:grayscale(1) brightness(0) invert(1);opacity:.72;transition:opacity .25s}
+.mq img:hover{opacity:1}
+
+/* ---------- sections ---------- */
+section{position:relative}
+.sec{padding:108px 0}
+@media(max-width:760px){.sec{padding:72px 0}}
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--mut);margin-bottom:18px}
+.eyebrow .n{color:var(--ink)}
+.eyebrow .ln{height:1px;width:40px;background:var(--line)}
+h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(27px,3.6vw,44px);
+  line-height:1.06;letter-spacing:-.018em;max-width:16em}
+.lead{color:var(--ink2);max-width:36em;margin-top:18px;font-size:16.5px}
+
+/* declaração de posicionamento (o coração) */
+.declar{padding:118px 0 56px}
+.declar .stmt{font-family:'Archivo',sans-serif;font-weight:400;font-size:clamp(18px,2.1vw,27px);
+  line-height:1.3;letter-spacing:-.01em;max-width:22em;color:var(--ink2)}
+.declar .stmt + .stmt{margin-top:24px}
+.declar .stmt b{font-weight:800;color:var(--ink)}
+.declar .dgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
+@media(max-width:880px){.declar .dgrid{grid-template-columns:1fr;gap:36px}}
+.dvid{position:relative;overflow:hidden;background:var(--paper3);aspect-ratio:9/16;max-width:430px;max-height:600px;width:100%;margin:0 auto;border-radius:8px}
+/* blocos extras da coluna de texto (assinatura + ficha) — equilibram a altura vs vídeo */
+.dsign{margin-top:28px;color:var(--mut);font-size:15px;line-height:1.6;max-width:32em}
+.dsign b{color:var(--ink);font-weight:600}
+.dfacts{margin-top:30px}
+.dfacts .drow{display:grid;grid-template-columns:8em 1fr;gap:16px;padding:13px 2px;border-bottom:1px solid var(--hair);align-items:baseline}
+.dfacts dt{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--mut)}
+.dfacts dd{margin:0;color:var(--ink2);font-size:14.5px;line-height:1.45}
+@media(max-width:560px){.dfacts .drow{grid-template-columns:1fr;gap:3px}}
+.dvid video{width:100%;height:100%;object-fit:cover;display:block}
+.vmute{position:absolute;right:12px;bottom:12px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.6);background:rgba(10,10,10,.72);color:#fff;display:grid;place-items:center;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .2s ease,transform .2s ease;z-index:2}
+.vmute:hover{background:rgba(10,10,10,.82);transform:scale(1.06)}
+.eq{display:flex;align-items:flex-end;justify-content:center;gap:2.5px;width:18px;height:16px}
+/* mudo (antes do clique): barras PARADAS, silhueta de equalizador = sinaliza que tem áudio */
+.eq i{width:3px;border-radius:1px;background:currentColor;transition:height .14s ease}
+.eq i:nth-child(1){height:42%}
+.eq i:nth-child(2){height:78%}
+.eq i:nth-child(3){height:34%}
+.eq i:nth-child(4){height:60%}
+/* com som (após o clique): as barras dançam — equalizador "tocando" */
+.vmute.sound .eq i{animation:eqbar .9s ease-in-out infinite}
+.vmute.sound .eq i:nth-child(1){animation-delay:-.20s}
+.vmute.sound .eq i:nth-child(2){animation-delay:-.55s}
+.vmute.sound .eq i:nth-child(3){animation-delay:-.05s}
+.vmute.sound .eq i:nth-child(4){animation-delay:-.75s}
+@keyframes eqbar{0%,100%{height:24%}50%{height:95%}}
+
+
+/* split: image + content */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.split.rev .media{order:2}
+@media(max-width:880px){.split{grid-template-columns:1fr;gap:36px}.split.rev .media{order:0}}
+.media{position:relative;overflow:hidden;background:var(--paper3)}
+.media img{width:100%;height:100%;object-fit:cover;aspect-ratio:3/2}
+.media video{width:100%;height:100%;object-fit:cover;display:block}
+#produtos .media video{aspect-ratio:9/16}    /* mobile/empilhado: vídeo no formato nativo */
+#produtos .media{border-radius:8px}          /* cantos arredondados como o vídeo da seção "Quem é a Alkimia" */
+@media(min-width:881px){                       /* desktop 2-col: vídeo preenche a coluna e termina junto com a lista (perto do Ecobag); topo alinhado ao "02" */
+  #produtos .split{align-items:stretch}
+  #produtos .media video{position:absolute;inset:0;aspect-ratio:auto}
+}
+.media .cap{position:absolute;left:0;bottom:0;background:var(--ink);color:var(--paper);
+  font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.12em;padding:8px 13px;text-transform:uppercase}
+#produtos .media .cap,#acabamentos .media .cap{left:0;right:0;text-align:center}   /* barra de ponta a ponta, texto centralizado */
+#produtos .media .vmute{bottom:54px}   /* botão de áudio no canto inferior (igual vídeo 1), acima da barra de legenda */
+/* carrossel da seção Acabamentos (fotos antigas, cross-fade automático) */
+.carousel{position:relative;aspect-ratio:3/2;border-radius:8px}   /* cantos arredondados como os vídeos */
+.carousel .cslide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;filter:none;transition:opacity 1.1s ease}
+.carousel .cslide.on{opacity:1}
+#acabamentos .split{align-items:start}   /* texto alinhado ao topo do carrossel */
+.cap.typer::after{content:'_';margin-left:1px;animation:caret 1s steps(1) infinite}  /* cursor de digitação */
+@keyframes caret{50%{opacity:0}}
+
+/* product list */
+.plist{margin-top:26px;border-top:1px solid var(--line)}
+.pgrp{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.13em;font-size:11px;
+  color:var(--mut);padding:22px 4px 8px}
+.prow{position:relative;display:flex;align-items:baseline;gap:18px;padding:15px 4px;border-bottom:1px solid var(--hair);
+  transition:padding-left .25s,background .25s}
+.prow:hover{padding-left:14px;background:rgba(23,21,15,.025)}
+.prow h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:18px;letter-spacing:-.01em;flex-shrink:0;min-width:9em}
+.prow p{color:var(--mut);font-size:13.5px;margin-left:auto;text-align:right;max-width:24em}
+@media(max-width:560px){.prow{flex-wrap:wrap;gap:4px 14px}.prow p{margin-left:0;text-align:left;width:100%}}
+.pnote{color:var(--mut);font-size:12.5px;margin-top:16px}
+.pcat{margin-top:30px}
+
+/* techniques grid */
+.tech{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:48px}
+@media(max-width:680px){.tech{grid-template-columns:1fr}}
+.titem{background:var(--paper);padding:34px 30px;transition:background .25s}
+.titem:hover{background:var(--paper2)}
+.titem .tn{font-family:'Space Mono',monospace;font-size:11px;color:var(--mut);margin-bottom:14px;letter-spacing:.1em}
+.titem h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:20px;margin-bottom:9px;letter-spacing:-.01em}
+.titem p{color:var(--ink2);font-size:14.5px;line-height:1.55}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(max-width:820px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.steps{grid-template-columns:1fr}}
+.step{background:var(--paper);padding:34px 28px 40px;transition:background .25s,transform .25s,box-shadow .25s}
+.step:hover{background:var(--paper2);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.step .sn{font-family:'Archivo',sans-serif;font-weight:700;font-size:40px;color:var(--ink);letter-spacing:-.03em;margin-bottom:18px;line-height:1}
+.step h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;margin-bottom:9px}
+.step p{color:var(--mut);font-size:14px;line-height:1.55}
+
+
+/* big cta */
+.cta{background:var(--black);color:var(--paper);text-align:center;padding:118px 0}
+.cta h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(32px,5.6vw,60px);max-width:none;margin:0 auto;line-height:1.04;letter-spacing:-.022em}
+
+/* estrelas (gmaps) */
+.stars{font-size:22px;letter-spacing:4px;color:var(--ink);margin:12px 0 8px}
+
+/* google meu negócio / localização */
+.local{border-top:1px solid var(--line);background:var(--paper2);padding:72px 0}
+.localgrid{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
+@media(max-width:820px){.localgrid{grid-template-columns:1fr;gap:28px}}
+.local h2{font-size:clamp(24px,3vw,34px);margin-bottom:8px}
+.local p{color:var(--ink2);font-size:15px;margin:14px 0 22px;max-width:28em}
+.gmaps-rating{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 22px}
+.gmaps-rating .stars{font-size:18px;letter-spacing:3px;margin:0}
+.gmaps-rating .rtxt{font-size:14px;color:var(--ink2)}
+.gmaps-rating .rtxt strong{color:var(--ink);font-weight:700}
+.map{position:relative;overflow:hidden;border:1px solid var(--line)}
+.map iframe{display:block;width:100%;height:340px;border:0}
+
+/* footer (preto) */
+footer{background:var(--black);color:#f4f4f4;padding:72px 0 36px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+@media(max-width:760px){.foot{grid-template-columns:1fr;gap:34px}}
+.foot-tag{color:rgba(255,255,255,.7);font-size:14.5px;line-height:1.6;max-width:24em}
+.foot-tag .nm{font-family:'Archivo',sans-serif;font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:.02em;color:#fff;display:block;margin-bottom:8px}
+.fcol{display:flex;flex-direction:column;gap:10px}
+.fcol .ch{color:rgba(255,255,255,.5);margin-bottom:4px}
+.fcol a,.fcol span{font-size:14px;color:rgba(255,255,255,.78);transition:color .2s}
+.fcol a:hover{color:#fff}
+.foot-bot{margin-top:56px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:rgba(255,255,255,.5)}
+
+/* ---------- micro-interações & motion ---------- */
+.titem{transition:background .25s,transform .25s,box-shadow .25s}
+.titem:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.titem .tn{transition:letter-spacing .2s}
+.titem:hover .tn{letter-spacing:.22em}
+.prow::before{content:"";position:absolute;left:-2px;top:0;bottom:0;width:2px;background:var(--ink);transform:scaleY(0);transform-origin:top;transition:transform .25s ease}
+.prow:hover::before{transform:scaleY(1)}
+.stagger>*{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.stagger.in>*{opacity:1;transform:none}
+.stagger.in>*:nth-child(2){transition-delay:.08s}.stagger.in>*:nth-child(3){transition-delay:.16s}.stagger.in>*:nth-child(4){transition-delay:.24s}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+/* motion sempre ativo: o reduce-motion do SO NÃO desativa as animações (decisão do Marcos p/ ver a experiência completa) */
+
+/* ===== AJUSTES RESPONSIVOS (mobile) — P0 nav + P1/P2 (plano-mobile-responsivo.md) ===== */
+@media(max-width:860px){
+  .navlinks a:not(.btn){display:none}      /* esconde os links inline... */
+  .navtoggle{display:inline-flex}          /* ...e mostra o hambúrguer na pill */
+  nav .wrap{gap:14px}                       /* pill mais compacta no celular */
+  nav .btn{min-height:44px}                 /* tap target do Orçamento >= 44px */
+}
+@media(max-width:880px){
+  .vmute{width:44px;height:44px}
+  .dvid{max-height:480px}
+  #produtos .media{max-height:480px}        /* vídeo 9:16 não fica alto demais no mobile */
+}
+@media(max-width:680px){ .titem{padding:28px 20px} }   /* cards de técnica respiram no mobile */
+@media(max-width:480px){ .wrap{padding:0 20px} }       /* margem lateral menor em telas pequenas */
+
+/* ===== A11y (QA accessibility-expert): foco visível, skip link, tap targets de texto ===== */
+.skip{position:fixed;left:8px;top:-60px;z-index:70;background:var(--ink);color:#fff;padding:10px 16px;font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;border-radius:0 0 8px 8px;transition:top .2s ease}
+.skip:focus{top:0}
+a:focus-visible,button:focus-visible,iframe:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+.cta a:focus-visible,footer a:focus-visible,.btn-lt:focus-visible,.btn-line:focus-visible,.drawer .btn:focus-visible,.vmute:focus-visible{outline-color:#fff}
+@media(max-width:860px){ .fcol a,.alt,.revs .more a{display:inline-block;padding:5px 0} }
+
+/* barra de redes sociais fixa na lateral (acompanha o scroll) */
+.social-rail{position:fixed;right:20px;left:auto;top:50%;transform:translateY(-50%);z-index:55;display:flex;flex-direction:column;gap:12px;padding:0;background:transparent}
+.social-rail a{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--ink);transition:transform .2s ease,background .2s ease,color .2s ease}
+.social-rail a:hover{transform:translateY(-2px);background:var(--ink);color:#fff;border-color:var(--ink)}
+.social-rail svg{width:18px;height:18px}
+@media(max-width:980px){.social-rail{display:none}}
+
+/* ── INTRO ────────────────────────────────────────────── */
+#intro{position:fixed;inset:0;z-index:9999;background:#080808;display:flex;align-items:center;justify-content:center;overflow:hidden}
+/* textura CSS animada (roda sempre; o vídeo sobrepõe quando existir) */
+#intro-fabric{position:absolute;inset:-25%;width:150%;height:150%;animation:fabricDrift 16s ease-in-out infinite alternate;will-change:transform}
+#intro-fabric svg{width:100%;height:100%;display:block}
+@keyframes fabricDrift{from{transform:translate(0,0) scale(1)}to{transform:translate(-5%,-4%) scale(1.07)}}
+/* vídeo real (opcional — sobrepõe a textura CSS quando fabric-bg.mp4 existir) */
+#intro video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;pointer-events:none}
+#intro-scrim{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+/* conteúdo */
+#intro-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:0 24px}
+#intro-word{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(38px,7vw,82px);letter-spacing:.2em;text-indent:.2em;color:#fff;text-transform:uppercase;line-height:1}
+#intro-tag{font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(13px,1.4vw,17px);letter-spacing:.01em;color:rgba(255,255,255,.5)}
+#intro.fade-out{animation:introFade 1s ease forwards}
+@keyframes introFade{to{opacity:0;pointer-events:none}}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro" role="presentation" aria-hidden="true">
+  <!-- textura CSS de tecido (sempre ativa) -->
+  <div id="intro-fabric">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <filter id="fab" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.64 0.74" numOctaves="4" seed="5" result="noise"/>
+        <feColorMatrix in="noise" type="saturate" values="0" result="grey"/>
+        <feComponentTransfer in="grey" result="tex">
+          <feFuncR type="linear" slope="0.18" intercept="0.03"/>
+          <feFuncG type="linear" slope="0.18" intercept="0.03"/>
+          <feFuncB type="linear" slope="0.20" intercept="0.03"/>
+        </feComponentTransfer>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#fab)"/>
+    </svg>
+  </div>
+  <!-- vídeo real (sobrepõe quando fabric-bg.mp4 existir) -->
+  <video src="assets/fabric-bg.mp4" autoplay muted loop playsinline preload="auto"></video>
+  <div id="intro-scrim"></div>
+  <div id="intro-inner">
+    <p id="intro-word"><span id="intro-letters"></span></p>
+    <p id="intro-tag"><span id="intro-tag-letters"></span></p>
+  </div>
+</div>
+
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<nav aria-label="Principal">
+  <div class="wrap">
+    <a href="#" class="brand">
+      <span class="nm">Alkimia</span>
+    </a>
+    <div class="navlinks">
+      <a href="#sobre">Sobre</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#processo">Processo</a>
+      <a href="#contato">Contato</a>
+      <a class="btn" href="https://wa.me/5511983926323?text=Oi%2C%20quero%20um%20or%C3%A7amento." target="_blank" rel="noopener">Orçamento</a>
+    </div>
+    <button class="navtoggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="drawer"><span aria-hidden="true"></span></button>
+  </div>
+</nav>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <div class="drawer-head">
+    <span class="drawer-brand" aria-hidden="true">Alkimia</span>
+    <button class="drawer-close" type="button" aria-label="Fechar menu" onclick="document.querySelector('.navtoggle').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+    <nav class="drawer-nav">
+      <a href="#sobre">Sobre<svg class="drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a href="#produtos">Produtos<svg class="drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a href="#processo">Processo<svg class="drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a href="#contato">Contato<svg class="drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></a>
+    </nav>
+    <a class="drawer-cta" href="https://wa.me/5511983926323?text=Oi%2C%20quero%20um%20or%C3%A7amento." target="_blank" rel="noopener">Pedir orçamento</a>
+  </div>
+</div>
+
+<nav class="social-rail" aria-label="Redes sociais">
+  <a href="https://instagram.com/alkimia.prod" target="_blank" rel="noopener" aria-label="Instagram da Alkimia">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none"/></svg>
+  </a>
+  <a href="https://www.tiktok.com/@alkimia.prod" target="_blank" rel="noopener" aria-label="TikTok da Alkimia">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.3 0 .58.05.85.13V9.4a6.33 6.33 0 0 0-1-.05A6.34 6.34 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg>
+  </a>
+  <a href="https://wa.me/5511983926323" target="_blank" rel="noopener" aria-label="WhatsApp da Alkimia">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.8c2.16 0 4.19.84 5.72 2.37a8.06 8.06 0 0 1 2.37 5.74c0 4.46-3.63 8.09-8.1 8.09a8.1 8.1 0 0 1-4.12-1.13l-.3-.18-3.12.82.83-3.04-.19-.31a8.03 8.03 0 0 1-1.24-4.3c0-4.46 3.63-8.09 8.1-8.09zm-2.6 4.32c-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.16 1.71 2.61 4.15 3.66.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.43-.58 1.63-1.15.2-.56.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28-.24-.12-1.43-.71-1.65-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.93-1.19-.71-.64-1.19-1.42-1.33-1.66-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.31-.76-1.79-.18-.42-.37-.42-.54-.43h-.46z"/></svg>
+  </a>
+</nav>
+
+<main id="conteudo">
+<header class="hero">
+  <div class="hero-media">
+    <picture>
+      <source srcset="assets/hero-slides/hero-2.webp" type="image/webp">
+      <img src="assets/hero-slides/hero-2.jpg" alt="Moletom cinza, camiseta preta e camiseta branca dobrados, cada peça com estampa de onda sonora colorida">
+    </picture>
+    <div class="hero-scrim" aria-hidden="true"></div>
+  </div>
+  <div class="hero-overlay">
+    <div class="wrap">
+      <div class="hero-txt stagger">
+        <h1>Vestimos equipes que levam imagem a&nbsp;sério</h1>
+        <p class="hero-sub">Camisetas, moletons e ecobags personalizadas<br>Entregamos para todo o Brasil.</p>
+        <div class="hero-cta">
+          <a class="btn btn-ghost" href="https://wa.me/5511983926323?text=Oi%2C%20quero%20um%20or%C3%A7amento." target="_blank" rel="noopener">Fale com a Alkimia <span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<section class="counter">
+  <div class="wrap rv">
+    <p class="counter-lead mono">Desde 2021</p>
+    <div class="counter-num">+<span class="count" data-to="50000">0</span></div>
+    <p class="counter-sub">camisetas produzidas para equipes</p>
+  </div>
+</section>
+
+<!-- MARQUEE CLIENTES -->
+<section class="clients" id="clientes">
+  <div class="wrap"><div class="eyebrow mono cl-eyebrow"><span class="ln"></span><span>Equipes e marcas que confiam na Alkimia</span></div></div>
+  <div class="marquee">
+    <div class="mq">
+      <img src="assets/clientes/canon.png" alt="Canon"><img src="assets/clientes/shure.png" alt="Shure"><img src="assets/clientes/cinemateca-brasileira.png" alt="Cinemateca Brasileira"><img src="assets/clientes/camera-pro.png" alt="Camera Pro"><img src="assets/clientes/filmes-do-bem2.png" alt="Filmes do Bem"><img src="assets/clientes/hornet.png" alt="Hornet"><img src="assets/clientes/mci.png" alt="MCI"><img src="assets/clientes/skelt.png" alt="Skelt"><img src="assets/clientes/santa-infra.png" alt="Santa Infra"><img src="assets/clientes/victor-xama.png" alt="Victor Xamã"><img src="assets/clientes/Wild-Life.png" alt="Wild Life"><img src="assets/clientes/locadora-de-equipamentos-cinematograficos-1.png" alt="Locadora de equipamentos cinematográficos">
+      <img src="assets/clientes/canon.png" alt="Canon"><img src="assets/clientes/shure.png" alt="Shure"><img src="assets/clientes/cinemateca-brasileira.png" alt="Cinemateca Brasileira"><img src="assets/clientes/camera-pro.png" alt="Camera Pro"><img src="assets/clientes/filmes-do-bem2.png" alt="Filmes do Bem"><img src="assets/clientes/hornet.png" alt="Hornet"><img src="assets/clientes/mci.png" alt="MCI"><img src="assets/clientes/skelt.png" alt="Skelt"><img src="assets/clientes/santa-infra.png" alt="Santa Infra"><img src="assets/clientes/victor-xama.png" alt="Victor Xamã"><img src="assets/clientes/Wild-Life.png" alt="Wild Life"><img src="assets/clientes/locadora-de-equipamentos-cinematograficos-1.png" alt="Locadora de equipamentos cinematográficos">
+    </div>
+  </div>
+</section>
+
+<!-- DECLARAÇÃO DE POSICIONAMENTO (o coração) -->
+<section class="sec declar" id="sobre">
+  <div class="wrap dgrid">
+    <div>
+      <div class="eyebrow mono rv"><span class="n">01</span><span class="ln"></span><span>Quem é a Alkimia</span></div>
+      <p class="stmt rv">Confecção, serigrafia e DTF <b>feitos dentro da Alkimia</b>, cuidando de cada processo, peça por peça.</p>
+      <p class="stmt rv">A maior parte do que produzimos veste o <b>audiovisual</b>. O mesmo padrão atende <b>agências, marcas culturais, bandas e muito mais</b>.</p>
+      <p class="dsign rv">Aqui o tecido é cortado, estampado e acabado pela mesma mão que responde pela entrega. <b>Sem etapa terceirizada</b>, sem peça que sai sem ter passado pela bancada.</p>
+      <dl class="dfacts rv">
+        <div class="drow"><dt>Na casa</dt><dd class="typer" data-text="corte, serigrafia, DTF e bordado"></dd></div>
+        <div class="drow"><dt>Equipe</dt><dd class="typer" data-text="confecção familiar, atendimento humanizado"></dd></div>
+        <div class="drow"><dt>Desde</dt><dd class="typer" data-text="2021 · Vila Ema · São Paulo"></dd></div>
+        <div class="drow"><dt>Pedido</dt><dd class="typer" data-text="a partir de 30 peças"></dd></div>
+      </dl>
+    </div>
+    <div class="dvid rv">
+      <video src="assets/video-1.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <button class="vmute" type="button" aria-label="Ativar som" aria-pressed="false">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- PRODUTOS -->
+<section class="sec" id="produtos" style="padding-top:56px">
+  <div class="wrap">
+    <div class="split rv">
+      <div class="media">
+        <video src="assets/video-2.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <button class="vmute" type="button" aria-label="Ativar som" aria-pressed="false">
+          <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        </button>
+        <span class="cap typer" data-text="Acabamento revisado peça por peça"></span>
+      </div>
+      <div>
+        <div class="eyebrow mono"><span class="n">02</span><span class="ln"></span><span>O que produzimos</span></div>
+        <h2>Modelagens e peças que trabalhamos.</h2>
+        <p class="lead">Tecidos e gramaturas confirmados no orçamento. Da camiseta ao moletom, no mesmo padrão de acabamento.</p>
+        <div class="plist">
+          <div class="pgrp">Camisetas e modelagens</div>
+          <div class="prow"><h3>Camiseta</h3><p>Meia malha penteada 100% algodão, 30.1 fios.</p></div>
+          <div class="prow"><h3>Regata</h3><p>Mesma malha da linha de camisetas.</p></div>
+          <div class="prow"><h3>Manga longa</h3><p>Mesma malha da linha de camisetas.</p></div>
+          <div class="prow"><h3>Oversized</h3><p>Penteada 30.1 ou moletinho 210 g, gola canelada 3 cm.</p></div>
+          <div class="prow"><h3>Baby look</h3><p>Meia malha penteada 100% algodão, 30.1 fios.</p></div>
+          <div class="prow"><h3>Cropped</h3><p>Meia malha penteada 100% algodão, 30.1 fios.</p></div>
+          <div class="pgrp">Esporte e polo</div>
+          <div class="prow"><h3>Dry-fit</h3><p>Microdry 100% poliéster.</p></div>
+          <div class="prow"><h3>Polo</h3><p>Piquet PA, 50% algodão / 50% poliéster.</p></div>
+          <div class="pgrp">Peças de frio</div>
+          <div class="prow"><h3>Moletom careca</h3><p>Felpado, 2 ou 3 cabos, 50% algodão / 50% poliéster.</p></div>
+          <div class="prow"><h3>Moletom com zíper</h3><p>Mesmo moletom felpado, com fechamento de zíper.</p></div>
+          <div class="pgrp">Acessórios</div>
+          <div class="prow"><h3>Ecobag</h3><p>Lona 100% algodão, 350 g.</p></div>
+        </div>
+        <p class="pnote">Cartela de cores por modelagem confirmada no orçamento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACABAMENTOS -->
+<section class="sec" id="acabamentos" style="padding-top:0">
+  <div class="wrap">
+    <div class="split rev rv">
+      <div class="media carousel" id="acabCarousel">
+        <img class="ph cslide on" src="fotos-site-antigo/SILK.jpg" alt="Serigrafia: estampa aplicada por tela">
+        <img class="ph cslide" src="fotos-site-antigo/DTF.png" alt="DTF: impressão transferida por calor">
+        <img class="ph cslide" src="fotos-site-antigo/BORDADO.jpg" alt="Bordado computadorizado">
+        <img class="ph cslide" src="fotos-site-antigo/EITQUETAS.jpg" alt="Etiqueta e tag aplicadas">
+        <span class="cap typer" data-text="Serigrafia · DTF · Bordado · Etiqueta"></span>
+      </div>
+      <div>
+        <div class="eyebrow mono"><span class="n">03</span><span class="ln"></span><span>Acabamentos</span></div>
+        <h2>A técnica certa para cada peça.</h2>
+        <p class="lead">Silk, DTF e bordado não fazem a mesma coisa. Cada processo tem o tipo de arte, de tecido e de uso em que rende melhor — e um em que não deveria nem ser tentado.</p>
+        <p class="lead">O que define o resultado não é ter a máquina, é saber qual técnica a peça pede e executar do jeito certo. Errar o processo cobra caro: cor que desbota, detalhe que some, relevo que não fica.</p>
+        <p class="lead">Por isso indicamos antes de produzir — a escolha vem de cada projeto, nós sabemos qual método é o melhor para a sua necessidade.</p>
+      </div>
+    </div>
+    <div class="tech stagger">
+      <div class="titem"><div class="tn">01 / Serigrafia</div><h3>Serigrafia</h3><p>Estampa aplicada por tela, cor a cor. A escolha para durabilidade e para tiragens em que cada peça precisa sair idêntica. Resiste à lavagem e ao uso.</p></div>
+      <div class="titem"><div class="tn">02 / DTF</div><h3>DTF</h3><p>Impressão digital transferida ao tecido por calor e pressão. A escolha quando a arte tem muitas cores, degradês ou detalhe fino que a tela não comportaria.</p></div>
+      <div class="titem"><div class="tn">03 / Bordado</div><h3>Bordado</h3><p>Aplicação em linha, computadorizada. A escolha para um acabamento de mais peso — logos, peito de polo e moletom.</p></div>
+      <div class="titem"><div class="tn">04 / Etiqueta</div><h3>Etiqueta e tag</h3><p>Aplicação da sua etiqueta interna e da sua tag externa. O acabamento que transforma a peça em produto de marca, e não em camiseta estampada.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section class="sec" id="processo" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow mono rv"><span class="n">04</span><span class="ln"></span><span>Como funciona</span></div>
+    <h2 class="rv" style="margin-bottom:44px">Do orçamento à entrega.</h2>
+    <div class="steps stagger">
+      <div class="step"><div class="sn">01</div><h3>Orçamento</h3><p>Entre em contato pelo WhatsApp e solicite seu orçamento. Atendemos e enviamos a proposta com o mockup do produto para aprovação.</p></div>
+      <div class="step"><div class="sn">02</div><h3>Pagamento</h3><p>Pix ou boleto: 50% no fechamento do pedido e 50% na entrega. Cartão de crédito em até 12x com juros.</p></div>
+      <div class="step"><div class="sn">03</div><h3>Produção</h3><p>Prazo médio de 3 a 4 semanas, com pontualidade no prazo acordado.</p></div>
+      <div class="step"><div class="sn">04</div><h3>Entrega</h3><p>Em São Paulo, por Lalamove no dia em que a produção termina. Demais localidades via correios ou transportadora de preferência do cliente.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <h2 class="rv">Deixe sua equipe uniformizada.</h2>
+    <a class="btn btn-lt rv" href="https://wa.me/5511983926323?text=Oi%2C%20quero%20um%20or%C3%A7amento." target="_blank" rel="noopener" style="font-size:15px;padding:16px 28px;margin-top:18px">Pedir orçamento no WhatsApp <span class="arw">→</span></a>
+  </div>
+</section>
+
+<!-- GOOGLE MEU NEGÓCIO / LOCALIZAÇÃO -->
+<section class="local">
+  <div class="wrap localgrid rv">
+    <div>
+      <div class="eyebrow mono"><span class="n">05</span><span class="ln"></span><span>Onde estamos</span></div>
+      <h2>Vila Ema, São Paulo</h2>
+      <p>Confecção própria na Zona Leste de São Paulo. Atendimento e fechamento pelo WhatsApp; visita com hora marcada.</p>
+      <div class="gmaps-rating">
+        <span class="stars" aria-label="5 de 5 estrelas">★★★★★</span>
+        <span class="rtxt"><strong>Excelente</strong> · 5,0 · 12 avaliações no Google</span>
+      </div>
+      <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=Alkimia%20Produ%C3%A7%C3%B5es%20Vila%20Ema%20S%C3%A3o%20Paulo" target="_blank" rel="noopener">Ver no Google Meu Negócio <span class="arw">→</span></a>
+    </div>
+    <div class="map">
+      <iframe src="https://www.google.com/maps?q=Alkimia%20Produ%C3%A7%C3%B5es%20Vila%20Ema%20S%C3%A3o%20Paulo&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Localização da Alkimia Produções no Google Maps"></iframe>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer id="contato">
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-tag">
+        <span class="nm">Alkimia Produções</span>
+        Confecção para equipes.<br>São Paulo, desde 2021.
+      </div>
+      <div class="fcol">
+        <span class="ch mono">Fale com a gente</span>
+        <a href="https://wa.me/5511983926323" target="_blank" rel="noopener">WhatsApp · (11) 98392-6323</a>
+        <a href="mailto:prod.alkimia@gmail.com">prod.alkimia@gmail.com</a>
+        <a href="https://instagram.com/alkimia.prod" target="_blank" rel="noopener">Instagram · @alkimia.prod</a>
+        <a href="catalogo.html">Catálogo →</a>
+      </div>
+      <div class="fcol">
+        <span class="ch mono">Onde estamos</span>
+        <span>Vila Ema · São Paulo · SP</span>
+        <span>Enviamos para todo o Brasil</span>
+      </div>
+    </div>
+    <div class="foot-bot mono">
+      <span>© <span id="yr"></span> Alkimia Produções</span>
+      <span>Vila Ema · São Paulo · Brasil</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+const RM=false; /* motion SEMPRE ativo (desktop e mobile) — decisão do Marcos */
+/* não restaurar a posição de scroll no refresh — começa no topo p/ a animação rodar no scroll */
+if('scrollRestoration' in history){history.scrollRestoration='manual';}
+
+/* reveal + stagger: anima UMA vez ao entrar — para de observar depois */
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+})},{threshold:.12});
+document.querySelectorAll('.rv,.stagger').forEach(el=>io.observe(el));
+
+
+/* contador de números da faixa */
+const fmt=n=>n.toLocaleString('pt-BR');
+/* contador: rAF por tempo; RE-CONTA toda vez que entra na tela (cancela loop anterior) */
+function countUp(el){const to=+el.dataset.to,dur=2000,t0=performance.now();
+  if(el._raf)cancelAnimationFrame(el._raf);
+  (function tick(now){const p=Math.min(((now||t0)-t0)/dur,1);
+    el.textContent=fmt(Math.round(p*to));if(p<1)el._raf=requestAnimationFrame(tick);})();}
+const cio=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){countUp(e.target);}})},{threshold:.4});
+document.querySelectorAll('.count').forEach(el=>cio.observe(el));
+
+/* parallax suave da band (só desktop, só se permitir motion) */
+const bandImg=document.querySelector('.band img');
+if(bandImg&&!RM&&window.matchMedia('(min-width:900px)').matches){
+  let ticking=false;
+  const par=()=>{const r=bandImg.parentElement.getBoundingClientRect();
+    const off=(r.top+r.height/2-window.innerHeight/2)*-0.06;
+    bandImg.style.transform='translateY('+off.toFixed(1)+'px)';ticking=false;};
+  window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(par);}},{passive:true});par();
+}
+
+/* preenchimento seguindo o mouse nos botões (throttle via rAF) */
+if(!RM){document.querySelectorAll('.btn').forEach(b=>{
+  let raf=false,lx=0,ly=0;
+  const apply=()=>{const r=b.getBoundingClientRect();b.style.setProperty('--mx',(lx-r.left)+'px');b.style.setProperty('--my',(ly-r.top)+'px');raf=false;};
+  const set=e=>{lx=e.clientX;ly=e.clientY;if(!raf){raf=true;requestAnimationFrame(apply);}};
+  b.addEventListener('pointerenter',set);b.addEventListener('pointermove',set);b.addEventListener('pointerleave',set);
+});}
+
+/* marquee de clientes: auto-scroll constante; ao passar o mouse, para e SEGUE o mouse (arrasta) */
+(function(){
+  const mq=document.querySelector('.mq'); if(!mq) return;
+  const wrap=mq.closest('.marquee');
+  let offset=0, half=0, hovering=false, last=performance.now();
+  const measure=()=>{half=mq.scrollWidth/2;};
+  measure(); window.addEventListener('resize',measure,{passive:true});
+  wrap.addEventListener('pointerenter',()=>hovering=true);
+  wrap.addEventListener('pointerleave',()=>hovering=false);
+  wrap.addEventListener('pointermove',(e)=>{ if(hovering) offset+=e.movementX; });
+  function loop(now){
+    const dt=Math.min((now-last)/1000,0.05); last=now;
+    if(!hovering) offset-=55*dt;            // auto-scroll p/ esquerda (~55px/s)
+    if(half){ while(offset<=-half) offset+=half; while(offset>0) offset-=half; } // loop sem emenda
+    mq.style.transform='translateX('+offset.toFixed(2)+'px)';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+
+/* botão(ões) de áudio dos vídeos — autoplay mudo (regra do navegador); clique ativa/desativa o som.
+   Cada .vmute controla o <video> do seu próprio bloco. Ícone = equalizador: parado antes do clique; com som a classe .sound dispara a dança das barras (CSS @keyframes eqbar). */
+(function(){
+  document.querySelectorAll('.vmute').forEach(btn=>{
+    const v=btn.parentElement.querySelector('video');
+    if(!v) return;
+    btn.addEventListener('click',()=>{
+      v.muted=!v.muted;
+      if(!v.muted){ v.play().catch(()=>{}); }
+      btn.classList.toggle('sound',!v.muted);
+      btn.setAttribute('aria-pressed', String(!v.muted));
+      btn.setAttribute('aria-label', v.muted?'Ativar som':'Desativar som');
+    });
+  });
+})();
+
+/* carrossel da seção Acabamentos: cross-fade automático entre as fotos antigas */
+(function(){
+  const car=document.getElementById('acabCarousel'); if(!car) return;
+  const slides=car.querySelectorAll('.cslide'); if(slides.length<2) return;
+  let i=0;
+  setInterval(()=>{ slides[i].classList.remove('on'); i=(i+1)%slides.length; slides[i].classList.add('on'); }, 3000);
+})();
+
+/* legenda do vídeo de produtos: efeito de digitação ao entrar na tela (re-digita ao reentrar) */
+(function(){
+  const caps=document.querySelectorAll('.typer[data-text]');
+  if(!caps.length) return;
+  const type=(el)=>{
+    clearInterval(el._t); const full=el.dataset.text; let i=0; el.textContent='';
+    el._t=setInterval(()=>{ el.textContent=full.slice(0,++i); if(i>=full.length) clearInterval(el._t); },55);
+  };
+  const tio=new IntersectionObserver((es)=>es.forEach(e=>{
+    if(e.isIntersecting){type(e.target);tio.unobserve(e.target);}
+  }),{threshold:.6});
+  caps.forEach(c=>tio.observe(c));
+})();
+
+/* menu mobile: hambúrguer (nasce na pill) -> drawer full-screen.
+   A11y (QA): inert no fundo enquanto aberto, foco entra no drawer, trap de Tab, ESC fecha e foco volta ao hambúrguer. */
+(function(){
+  const tgl=document.querySelector('.navtoggle');
+  const drawer=document.getElementById('drawer');
+  if(!tgl||!drawer) return;
+  const bg=[].slice.call(document.body.children).filter(el=>el!==drawer && el.tagName!=='NAV' && el.tagName!=='SCRIPT');
+  const focusables=()=>[].slice.call(drawer.querySelectorAll('a[href],button:not([disabled])'));
+  const isOpen=()=>document.body.classList.contains('nav-open');
+  const setOpen=(open)=>{
+    document.body.classList.toggle('nav-open',open);
+    tgl.setAttribute('aria-expanded',String(open));
+    tgl.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');
+    bg.forEach(el=>el.toggleAttribute('inert',open));   // fundo fora de foco/leitor enquanto aberto
+    if(open){ const f=focusables(); if(f[0]) f[0].focus(); } else { tgl.focus(); }
+  };
+  tgl.addEventListener('click',()=>setOpen(!isOpen()));
+  drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
+  document.addEventListener('keydown',e=>{
+    if(!isOpen()) return;
+    if(e.key==='Escape'){ setOpen(false); return; }
+    if(e.key==='Tab'){                                   // focus trap dentro do drawer
+      const f=focusables(); if(!f.length) return;
+      const first=f[0], last=f[f.length-1];
+      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+    }
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var intro = document.getElementById('intro');
+  if(!intro) return;
+
+  var letters    = document.getElementById('intro-letters');
+  var tagLetters = document.getElementById('intro-tag-letters');
+  var i = 0;
+
+  document.body.style.overflow = 'hidden';
+
+  /* ── 1. digita ALKIMIA (190ms/letra) ── */
+  function typeTitle(){
+    var word = 'ALKIMIA';
+    if(i < word.length){
+      letters.textContent += word[i++];
+      setTimeout(typeTitle, 190);
+    } else {
+      setTimeout(typeTag, 600);
+    }
+  }
+
+  /* ── 2. digita tagline (42ms/letra) ── */
+  function typeTag(){
+    var line = 'Camisetas, moletons e ecobags personalizadas';
+    var j = 0;
+    function t(){
+      if(j < line.length){
+        tagLetters.textContent += line[j++];
+        setTimeout(t, 42);
+      } else {
+        setTimeout(function(){
+          intro.classList.add('fade-out');
+          intro.addEventListener('animationend', function(){
+            intro.remove();
+            document.body.style.overflow = '';
+          }, {once:true});
+        }, 900);
+      }
+    }
+    t();
+  }
+
+  /* pequena pausa inicial antes de começar */
+  setTimeout(typeTitle, 700);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "alkimia",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "clientes/c001-alkimia/p001-site", "-l", "4321"],
+      "port": 4321
+    }
+  ]
+}
