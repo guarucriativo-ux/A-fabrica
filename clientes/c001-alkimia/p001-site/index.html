@@ -634,6 +634,7 @@ document.getElementById('yr').textContent=new Date().getFullYear();
 const RM=false; /* motion SEMPRE ativo (desktop e mobile) — decisão do Marcos */
 /* não restaurar a posição de scroll no refresh — começa no topo p/ a animação rodar no scroll */
 if('scrollRestoration' in history){history.scrollRestoration='manual';}
+window.scrollTo(0,0);
 
 /* reveal + stagger: anima UMA vez ao entrar — para de observar depois */
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{
@@ -797,6 +798,11 @@ if(!RM){document.querySelectorAll('.btn').forEach(b=>{
           intro.addEventListener('animationend', function(){
             intro.remove();
             document.body.style.overflow = '';
+            /* re-aciona contador para elementos já visíveis após intro sair */
+            document.querySelectorAll('.count').forEach(function(el){
+              var r=el.getBoundingClientRect();
+              if(r.top < window.innerHeight && r.bottom > 0) countUp(el);
+            });
           }, {once:true});
         }, 900);
       }
