@@ -1,15 +1,25 @@
 # STATUS — Alkimia · p001 Site + Catálogo web embutido
-Atualizado: 2026-06-29 (GitHub Pages ✅ ativo; próximo: validar drawer no celular real e continuar responsivo mobile).
+Atualizado: 2026-06-29 (social rail mobile ✅; tudo em master; workflow desktop documentado).
 
 Linha 3 (Site/Landing). Projeto VIVO, Fase 3 · PRODUÇÃO — site v3 iterado ao vivo com o Marcos.
-Arquivo: `index.html` (backup v2 em `index-v2-baseline.html`). Servidor: `.claude/launch.json` → "alkimia" (npx serve, porta 4321).
+Arquivo: `clientes/c001-alkimia/p001-site/index.html` (backup v2 em `index-v2-baseline.html`).
+Site ao vivo: https://guarucriativo-ux.github.io/A-fabrica/
 Identidade: P&B neutro alto contraste (#fff/#0a0a0a/cinzas). Cor só nas ESTAMPAS dos clientes e no mapa.
 ⚠️ Preview headless CONGELA animações/timers/transições e o screenshot trava com vídeo tocando → validar por DOM (eval), não por screenshot; ver de verdade no Chrome real.
 
+## WORKFLOW (desktop ou nova sessão)
+1. Abrir terminal na raiz do repo (`/A-fabrica`)
+2. `git checkout master && git pull origin master`
+3. Editar `clientes/c001-alkimia/p001-site/index.html`
+4. Commitar e fazer push no master
+5. Publicar no site: `bash deploy-alkimia.sh` → atualiza gh-pages automaticamente
+6. Atualizar este STATUS.md antes de fechar a sessão
+
 ## FEITO NESTA SESSÃO (2026-06-29 — sessão web Claude Code)
-- **Repositório pushado ao GitHub** (`guarucriativo-ux/A-fabrica`, público). Branch `gh-pages` tem o site ao vivo.
-- **GitHub Pages:** ✅ ATIVO. Branch `gh-pages` publicada. URL ao vivo: `https://guarucriativo-ux.github.io/A-fabrica/`.
-- **Drawer redesenhado:** saiu de tela cheia (`inset:0`) para painel flutuante compacto (244px, `top:74px right:16px`, border-radius 14px, sombra sutil, anima com scale+fade). Backdrop invisível fecha ao clicar fora. Fonte 13.5px, padding 13px. CTA com border-radius 8px. Commitado em master e gh-pages.
+- **Repositório pushado ao GitHub** (`guarucriativo-ux/A-fabrica`, público).
+- **GitHub Pages:** ✅ ATIVO. URL ao vivo: `https://guarucriativo-ux.github.io/A-fabrica/`.
+- **Drawer redesenhado:** painel flutuante compacto (244px, `top:74px right:16px`, border-radius 14px, sombra, anima scale+fade). Fecha ao clicar fora/ESC. Fonte 13.5px, padding 13px.
+- **Social rail mobile ✅:** removido `display:none` <=980px. Mobile <=860px: botões 34px, gap 8px, right 12px — lateral direita igual ao desktop.
 
 ## FEITO NESTA SESSÃO (2026-06-28 tarde)
 - **Hero mobile:** imagem aparece PRIMEIRO (acima do texto), produtos centralizados com zoom/crop (`object-fit:cover`). Gradiente fade na base da imagem para casar com entrada do texto. Todos os textos do hero centralizados no mobile.
