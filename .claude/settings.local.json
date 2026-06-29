@@ -138,7 +138,11 @@
       "Bash(git commit *)",
       "Bash(gh repo *)",
       "Bash(git ls-tree *)",
-      "Bash(git fetch *)"
+      "Bash(git fetch *)",
+      "Bash(cat .devcontainer/devcontainer.json)",
+      "Bash(ls .devcontainer/)",
+      "Bash(npm --version)",
+      "Bash(mkdir \"C:\\\\Users\\\\Freitas Quitanda\\\\Desktop\\\\A fábrica\\\\.devcontainer\")"
     ]
   }
 }
