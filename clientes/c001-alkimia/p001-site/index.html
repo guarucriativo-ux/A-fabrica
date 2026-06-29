@@ -134,9 +134,9 @@ nav .btn{border-radius:9px;padding:9px 16px;font-size:11px}
   /* foto com height fixo e zoom centralizado nos produtos */
   .hero-media{min-height:0;height:72vw;max-height:380px}
   .hero-media picture{display:block;width:100%;height:100%}
-  .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center;animation:none}
+  .hero-media img{width:100%;height:100%;object-fit:cover;object-position:76% center;animation:none}
   /* fade na base da imagem para casar com a entrada do texto */
-  .hero-media::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,transparent 30%,rgba(255,255,255,.55) 68%,var(--paper) 100%);pointer-events:none}
+  .hero-media::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,transparent 50%,rgba(255,255,255,.3) 78%,var(--paper) 100%);pointer-events:none}
   .hero-scrim{display:none}
 }
 @media(max-width:880px){
@@ -159,10 +159,16 @@ nav .btn{border-radius:9px;padding:9px 16px;font-size:11px}
 
 /* ---------- clientes marquee ---------- */
 .clients{background:var(--black);padding:62px 0;overflow:hidden}
-.cl-eyebrow{margin-bottom:34px;color:#fff}
+.cl-eyebrow{margin-bottom:34px;color:#fff !important;justify-content:center}
 .cl-eyebrow .ln{background:rgba(255,255,255,.3)}
+@media(max-width:860px){
+  .clients{padding:36px 0}
+  .mq img{height:80px}
+  .cl-eyebrow{margin-bottom:20px}
+}
 .marquee{display:flex;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .mq{display:flex;align-items:center;gap:150px;padding-right:150px;will-change:transform}
+@media(max-width:860px){.mq{gap:60px;padding-right:60px}}
 .mq img{height:132px;width:auto;flex-shrink:0;filter:grayscale(1) brightness(0) invert(1);opacity:.72;transition:opacity .25s}
 .mq img:hover{opacity:1}
 
@@ -179,6 +185,7 @@ h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(27px,3.6vw,4
 
 /* declaração de posicionamento (o coração) */
 .declar{padding:118px 0 56px}
+@media(max-width:860px){.declar{padding:48px 0 36px}}
 .declar .stmt{font-family:'Archivo',sans-serif;font-weight:400;font-size:clamp(18px,2.1vw,27px);
   line-height:1.3;letter-spacing:-.01em;max-width:22em;color:var(--ink2)}
 .declar .stmt + .stmt{margin-top:24px}
@@ -266,9 +273,12 @@ h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(27px,3.6vw,4
 @media(max-width:480px){.steps{grid-template-columns:1fr}}
 .step{background:var(--paper);padding:34px 28px 40px;transition:background .25s,transform .25s,box-shadow .25s}
 .step:hover{background:var(--paper2);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
-.step .sn{font-family:'Archivo',sans-serif;font-weight:700;font-size:40px;color:var(--ink);letter-spacing:-.03em;margin-bottom:18px;line-height:1}
+.step .sn{font-family:'Space Mono',monospace;font-weight:400;font-size:11px;color:var(--mut);letter-spacing:.1em;margin-bottom:10px;line-height:1;text-transform:uppercase}
 .step h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;margin-bottom:9px}
 .step p{color:var(--mut);font-size:14px;line-height:1.55}
+.step-icon{display:flex;align-items:center;justify-content:center;width:48px;height:48px;margin-bottom:16px;color:#444;opacity:0;filter:brightness(3) blur(2px);transition:opacity 1.2s ease,filter 1.2s ease}
+.step-icon.visible{opacity:1;filter:brightness(1) blur(0)}
+.step-icon svg{width:36px;height:36px}
 
 
 /* big cta */
@@ -330,8 +340,36 @@ footer{background:var(--black);color:#f4f4f4;padding:72px 0 36px}
   .vmute{width:44px;height:44px}
   .dvid{max-height:480px}
   #produtos .media{max-height:480px}        /* vídeo 9:16 não fica alto demais no mobile */
+  #produtos .media{display:none}            /* remove o 2º vídeo no mobile */
+  #produtos{padding-top:16px !important;padding-bottom:40px}
 }
 @media(max-width:680px){ .titem{padding:28px 20px} }   /* cards de técnica respiram no mobile */
+
+/* ===== CARROSSEL PORTFOLIO (todos os viewports) ===== */
+.portfolio-mobile{display:block;padding:40px 0 56px}
+.pm-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.pm-txt h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(28px,3vw,40px);line-height:1.15;margin:16px 0 14px}
+.pm-txt .lead{color:var(--mut);font-size:15px;line-height:1.6}
+.pm-wrap{position:relative;overflow:hidden;border-radius:10px;width:100%}
+.pm-track{display:flex;width:100%;touch-action:pan-y;transition:transform .4s ease}
+.pm-slide{flex:0 0 100%;width:100%}
+.pm-slide img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.pm-dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.pm-dots span{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .2s;cursor:pointer}
+.pm-dots span.on{background:var(--ink)}
+.pm-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.85);border:1px solid var(--hair);display:grid;place-items:center;cursor:pointer;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.pm-arrow svg{width:16px;height:16px;color:var(--ink)}
+.pm-prev{left:8px}
+.pm-next{right:8px}
+@media(max-width:860px){
+  .portfolio-mobile{padding:16px 0 40px}
+  .pm-layout{grid-template-columns:1fr;gap:0}
+  .pm-txt{display:none}
+  /* esconde carrossel original no mobile */
+  #acabCarousel{display:none}
+  /* steps mobile: esconde número, ícone já visível via base CSS */
+  .step .sn{display:none}
+}
 @media(max-width:480px){ .wrap{padding:0 20px} }       /* margem lateral menor em telas pequenas */
 
 /* ===== A11y (QA accessibility-expert): foco visível, skip link, tap targets de texto ===== */
@@ -469,6 +507,7 @@ a:focus-visible,button:focus-visible,iframe:focus-visible{outline:2px solid var(
 <header class="hero">
   <div class="hero-media">
     <picture>
+      <source media="(max-width:900px)" srcset="assets/hero-slides/hero-2.jpg">
       <source srcset="assets/hero-slides/hero-2.webp" type="image/webp">
       <img src="assets/hero-slides/hero-2.jpg" alt="Moletom cinza, camiseta preta e camiseta branca dobrados, cada peça com estampa de onda sonora colorida">
     </picture>
@@ -568,6 +607,43 @@ a:focus-visible,button:focus-visible,iframe:focus-visible{outline:2px solid var(
   </div>
 </section>
 
+<!-- PORTFOLIO — carrossel de trabalhos -->
+<section class="sec portfolio-mobile" id="portfolio-mobile">
+  <div class="wrap">
+    <div class="pm-layout">
+      <div class="pm-txt">
+        <div class="eyebrow mono"><span class="ln"></span><span>Alguns de nossos trabalhos</span></div>
+        <h2>Feito à mão,<br>entregue com cuidado.</h2>
+        <p class="lead">Uma seleção de peças produzidas para equipes e marcas que confiam na Alkimia.</p>
+      </div>
+      <div class="pm-carousel-col">
+    <div class="pm-wrap">
+    <button class="pm-arrow pm-prev" aria-label="Anterior">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="pm-track">
+      <div class="pm-slide"><img src="assets/portfolio/foto-1.jpg" alt="Trabalho 1"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-2.jpg" alt="Trabalho 2"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-3.jpg" alt="Trabalho 3"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-4.jpg" alt="Trabalho 4"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-5.jpg" alt="Trabalho 5"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-6.jpg" alt="Trabalho 6"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-7.jpg" alt="Trabalho 7"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-8.jpg" alt="Trabalho 8"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-9.jpg" alt="Trabalho 9"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-10.jpg" alt="Trabalho 10"></div>
+      <div class="pm-slide"><img src="assets/portfolio/foto-11.jpg" alt="Trabalho 11"></div>
+    </div>
+    <button class="pm-arrow pm-next" aria-label="Próximo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    </div><!-- /pm-wrap -->
+    <div class="pm-dots" id="pmDots"></div>
+      </div><!-- /pm-carousel-col -->
+    </div><!-- /pm-layout -->
+  </div>
+</section>
+
 <!-- ACABAMENTOS -->
 <section class="sec" id="acabamentos" style="padding-top:0">
   <div class="wrap">
@@ -602,10 +678,10 @@ a:focus-visible,button:focus-visible,iframe:focus-visible{outline:2px solid var(
     <div class="eyebrow mono rv"><span class="n">04</span><span class="ln"></span><span>Como funciona</span></div>
     <h2 class="rv" style="margin-bottom:44px">Do orçamento à entrega.</h2>
     <div class="steps stagger">
-      <div class="step"><div class="sn">01</div><h3>Orçamento</h3><p>Entre em contato pelo WhatsApp e solicite seu orçamento. Atendemos e enviamos a proposta com o mockup do produto para aprovação.</p></div>
-      <div class="step"><div class="sn">02</div><h3>Pagamento</h3><p>Pix ou boleto: 50% no fechamento do pedido e 50% na entrega. Cartão de crédito em até 12x com juros.</p></div>
-      <div class="step"><div class="sn">03</div><h3>Produção</h3><p>Prazo médio de 3 a 4 semanas, com pontualidade no prazo acordado.</p></div>
-      <div class="step"><div class="sn">04</div><h3>Entrega</h3><p>Em São Paulo, por Lalamove no dia em que a produção termina. Demais localidades via correios ou transportadora de preferência do cliente.</p></div>
+      <div class="step"><div class="sn">01</div><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><h3>Orçamento</h3><p>Entre em contato pelo WhatsApp e solicite seu orçamento. Atendemos e enviamos a proposta com o mockup do produto para aprovação.</p></div>
+      <div class="step"><div class="sn">02</div><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span><h3>Pagamento</h3><p>Pix ou boleto: 50% no fechamento do pedido e 50% na entrega. Cartão de crédito em até 12x com juros.</p></div>
+      <div class="step"><div class="sn">03</div><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><h3>Produção</h3><p>Prazo médio de 3 a 4 semanas, com pontualidade no prazo acordado.</p></div>
+      <div class="step"><div class="sn">04</div><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span><h3>Entrega</h3><p>Em São Paulo, por Lalamove no dia em que a produção termina. Demais localidades via correios ou transportadora de preferência do cliente.</p></div>
     </div>
   </div>
 </section>
@@ -719,7 +795,8 @@ if(!RM){document.querySelectorAll('.btn').forEach(b=>{
   wrap.addEventListener('pointermove',(e)=>{ if(hovering) offset+=e.movementX; });
   function loop(now){
     const dt=Math.min((now-last)/1000,0.05); last=now;
-    if(!hovering) offset-=55*dt;            // auto-scroll p/ esquerda (~55px/s)
+    const speed=window.innerWidth<=860?110:55;
+    if(!hovering) offset-=speed*dt;         // mobile: 110px/s; desktop: 55px/s
     if(half){ while(offset<=-half) offset+=half; while(offset>0) offset-=half; } // loop sem emenda
     mq.style.transform='translateX('+offset.toFixed(2)+'px)';
     requestAnimationFrame(loop);
@@ -848,6 +925,66 @@ if(!RM){document.querySelectorAll('.btn').forEach(b=>{
 
   /* pequena pausa inicial antes de começar */
   setTimeout(typeTitle, 700);
+})();
+
+/* ===== Carrossel portfolio mobile — auto-play + setas + retomada ===== */
+(function(){
+  const track = document.querySelector('.pm-track');
+  if(!track) return;
+  const slides = track.querySelectorAll('.pm-slide');
+  const dotsWrap = document.getElementById('pmDots');
+  const btnPrev = document.querySelector('.pm-prev');
+  const btnNext = document.querySelector('.pm-next');
+  if(!slides.length) return;
+  let cur = 0, autoTimer = null, resumeTimer = null;
+  const INTERVAL = 3000, RESUME_DELAY = 4000;
+
+  slides.forEach((_,i)=>{
+    const d = document.createElement('span');
+    if(i===0) d.classList.add('on');
+    d.addEventListener('click',()=>{ pauseAuto(); go(i); scheduleResume(); });
+    dotsWrap.appendChild(d);
+  });
+
+  function go(n){
+    cur = (n + slides.length) % slides.length;
+    const w = track.parentElement.offsetWidth;
+    track.style.transform = 'translateX(-'+(cur*w)+'px)';
+    dotsWrap.querySelectorAll('span').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  }
+  function startAuto(){ autoTimer = setInterval(()=>go(cur+1), INTERVAL); }
+  function pauseAuto(){ clearInterval(autoTimer); autoTimer=null; }
+  function scheduleResume(){ clearTimeout(resumeTimer); resumeTimer=setTimeout(startAuto, RESUME_DELAY); }
+
+  // setas
+  btnPrev && btnPrev.addEventListener('click',()=>{ pauseAuto(); go(cur-1); scheduleResume(); });
+  btnNext && btnNext.addEventListener('click',()=>{ pauseAuto(); go(cur+1); scheduleResume(); });
+
+  // swipe
+  let sx=0;
+  track.addEventListener('touchstart',e=>{ sx=e.touches[0].clientX; pauseAuto(); },{passive:true});
+  track.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>40) go(cur+(dx<0?1:-1));
+    scheduleResume();
+  });
+
+  startAuto();
+})();
+
+/* ===== Step icons — fade-in com brilho ao entrar na tela (mobile) ===== */
+(function(){
+  const icons = document.querySelectorAll('.step-icon');
+  if(!icons.length) return;
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('visible'), i*180);
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.3});
+  icons.forEach(ic=>obs.observe(ic));
 })();
 </script>
 </body>
