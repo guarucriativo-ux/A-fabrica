@@ -1,5 +1,5 @@
 # STATUS — Alkimia · p001 Site + Catálogo web embutido
-Atualizado: 2026-06-29 (sessão web — GitHub Pages configurado, drawer redesenhado como painel flutuante compacto).
+Atualizado: 2026-06-29 (GitHub Pages ✅ ativo; próximo: validar drawer no celular real e continuar responsivo mobile).
 
 Linha 3 (Site/Landing). Projeto VIVO, Fase 3 · PRODUÇÃO — site v3 iterado ao vivo com o Marcos.
 Arquivo: `index.html` (backup v2 em `index-v2-baseline.html`). Servidor: `.claude/launch.json` → "alkimia" (npx serve, porta 4321).
@@ -8,7 +8,7 @@ Identidade: P&B neutro alto contraste (#fff/#0a0a0a/cinzas). Cor só nas ESTAMPA
 
 ## FEITO NESTA SESSÃO (2026-06-29 — sessão web Claude Code)
 - **Repositório pushado ao GitHub** (`guarucriativo-ux/A-fabrica`, público). Branch `gh-pages` tem o site ao vivo.
-- **GitHub Pages:** repositório tornado público; branch `gh-pages` com `index.html` + assets. URL: `https://guarucriativo-ux.github.io/A-fabrica/`. **⚠️ Pendente:** ativar em Settings > Pages (source: gh-pages / root) — Marcos precisa fazer manualmente.
+- **GitHub Pages:** ✅ ATIVO. Branch `gh-pages` publicada. URL ao vivo: `https://guarucriativo-ux.github.io/A-fabrica/`.
 - **Drawer redesenhado:** saiu de tela cheia (`inset:0`) para painel flutuante compacto (244px, `top:74px right:16px`, border-radius 14px, sombra sutil, anima com scale+fade). Backdrop invisível fecha ao clicar fora. Fonte 13.5px, padding 13px. CTA com border-radius 8px. Commitado em master e gh-pages.
 
 ## FEITO NESTA SESSÃO (2026-06-28 tarde)
@@ -41,8 +41,7 @@ Identidade: P&B neutro alto contraste (#fff/#0a0a0a/cinzas). Cor só nas ESTAMPA
 - a11y (não bloqueiam): marquee WCAG 2.2.2 (pausa por teclado/touch) vs "motion sempre ativo".
 
 ## PRÓXIMO (retomar aqui)
-0. **GitHub Pages — ativar:** Settings → Pages → branch `gh-pages` → `/root` → Save. URL final: `guarucriativo-ux.github.io/A-fabrica`. Branch já publicada, só falta ativar no GitHub.
-1. **Validar drawer no celular real** — após Pages ativo, abrir a URL e confirmar drawer mobile visualmente. Drawer foi reescrito (flex:1 removido do nav, margin-top:auto no CTA, padding:26px nos links).
+1. **Validar drawer no celular real** — abrir `https://guarucriativo-ux.github.io/A-fabrica/` e confirmar drawer mobile visualmente. Drawer foi reescrito (flex:1 removido do nav, margin-top:auto no CTA, padding:26px nos links).
 2. **Continuar responsivo mobile** — restam: seção 01 "Quem é a Alkimia", 03 Acabamentos, 04 Como funciona, 05 Mapa, CTA, footer, social rail.
 2. **Hero carrossel:** Marcos gera imagens 2–4 no ChatGPT (prompts SEM texto em `hero-prompts-e-copy.md`) → `assets/hero-slides/` → montar carrossel (foto+copy trocam juntas). Copy: `copy-hero-carrossel.md`.
 3. **catalogo.html:** construir (oculto/noindex, grid + página de produto). Hoje link "Catálogo →" (footer) dá 404; botão de Produtos foi removido (definir onde recolocar). Docs: `arquitetura-catalogo.md` · `copy-catalogo-web.md` · `schema-produtos.md`.
