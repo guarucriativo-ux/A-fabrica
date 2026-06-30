@@ -1,9 +1,10 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
+import { useMotionValue } from 'framer-motion'
 import TremWaves from '../svgs/TremWaves'
 
 export default function WaveSection({ flip = false }) {
   const ref = useRef(null)
-  const [ty, setTy] = useState(0)
+  const progress = useMotionValue(0)
 
   useEffect(() => {
     let raf
@@ -11,37 +12,28 @@ export default function WaveSection({ flip = false }) {
       if (ref.current) {
         const rect = ref.current.getBoundingClientRect()
         const vh = window.innerHeight
-        // progress: 0 = section just entering bottom of viewport
-        //           1 = section top reached viewport top
         const raw = 1 - rect.bottom / (vh + rect.height)
-        const clamped = Math.max(0, Math.min(1, raw))
-        // Hills sobem 100px conforme a section entra no viewport
-        setTy(clamped * -100)
+        progress.set(Math.max(0, Math.min(1, raw)))
       }
       raf = requestAnimationFrame(update)
     }
     raf = requestAnimationFrame(update)
     return () => cancelAnimationFrame(raf)
-  }, [])
+  }, [progress])
 
   return (
     <div
       ref={ref}
       style={{
         position: 'relative',
-        height: 'clamp(260px, 32vw, 420px)',
+        height: 'clamp(280px, 34vw, 460px)',
         overflow: 'hidden',
         background: '#F8F8F4',
         transform: flip ? 'scaleY(-1)' : 'none',
       }}
     >
-      <div style={{
-        position: 'absolute',
-        inset: '-20% -2% -5%',
-        transform: `translateY(${ty}px)`,
-        willChange: 'transform',
-      }}>
-        <TremWaves />
+      <div style={{ position: 'absolute', inset: '-5% -2% -15%' }}>
+        <TremWaves progress={progress} />
       </div>
     </div>
   )
