@@ -1,6 +1,16 @@
 # STATUS — p002-site (Guaru Estúdio)
-**Última atualização:** 2026-06-29
-**Status atual:** v4 EM DESENVOLVIMENTO — migrado para React+Vite+Framer Motion+Lenis. Rodando em localhost:5173.
+**Última atualização:** 2026-06-29 23h32
+**Status atual:** v4 EM DESENVOLVIMENTO — efeito Tresmares (WaveSections + parallax) implementado mas NÃO aprovado visualmente. Retomar amanhã.
+
+## PRÓXIMA SESSÃO — RETOMAR AQUI
+**Problema central:** efeito de scroll geométrico estilo tresmarescapital.com/en/ não está satisfatório.
+- Referência: colinas SVG quase invisíveis (tom sobre tom), camadas em parallax ao scroll
+- Implementado: `TremWaves.jsx` (6 camadas, motion.path, useTransform), `WaveSection.jsx` (useMotionValue + RAF)
+- Resultado atual: Marcos disse "não estamos chegando no resultado"
+- Dev server: `cd "clientes/c000-a-fabrica/p002-site" && npm run dev` → localhost:5173/A-fabrica/
+- Repo: https://github.com/guarucriativo-ux/A-fabrica (branch master, commit ea3fb69)
+
+**PRÓXIMO PASSO:** Abrir o site + abrir tresmarescapital.com/en/ lado a lado, comparar pixel a pixel e decidir nova abordagem para o efeito (talvez canvas/WebGL simplificado, ou ajuste agressivo de cores/contraste).
 
 ## CORREÇÕES APLICADAS (Design Chief — aprovadas por Marcos)
 - ✅ B1 — Menu mobile drawer funcional (JS toggle, overlay, ARIA, fecha por link)
