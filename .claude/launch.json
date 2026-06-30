@@ -6,6 +6,13 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["-y", "serve", "clientes/c001-alkimia/p001-site", "-l", "4321"],
       "port": 4321
+    },
+    {
+      "name": "guaru-site",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "clientes/c000-a-fabrica/p002-site",
+      "port": 5173
     }
   ]
 }

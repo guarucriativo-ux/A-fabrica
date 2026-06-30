@@ -13,7 +13,8 @@ git checkout master -- "$SITE/index.html"
 cp "$SITE/index.html" index.html
 git checkout master -- "$SITE/assets"
 cp -r "$SITE/assets" .
-git add index.html assets/
+cp -r "$SITE/fotos-site-antigo" . 2>/dev/null || true
+git add index.html assets/ fotos-site-antigo/ 2>/dev/null || git add index.html assets/
 git commit -m "deploy: atualiza site Alkimia ($(date '+%Y-%m-%d %H:%M'))" || echo "Nada novo pra commitar."
 git push origin gh-pages --force
 git checkout master

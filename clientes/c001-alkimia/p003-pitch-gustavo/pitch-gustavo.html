@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alkimia — Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0a0a0a;--paper:#fff;--muted:#888;--line:#e0e0e0;--soft:#f5f5f5}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--ink);font-family:'Archivo',sans-serif}
+
+/* ── DECK ── */
+.deck{width:100vw;height:100vh;position:relative;overflow:hidden}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(40px,6vw,96px);
+  opacity:0;pointer-events:none;
+  transition:opacity .45s ease;
+}
+.slide.active{opacity:1;pointer-events:all}
+
+/* backgrounds */
+.slide.dark{background:var(--ink);color:var(--paper)}
+.slide.light{background:var(--paper);color:var(--ink)}
+.slide.soft{background:var(--soft);color:var(--ink)}
+
+/* ── TYPOGRAPHY ── */
+.label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.label::before{content:'';display:block;width:32px;height:1px;background:currentColor}
+h1{font-size:clamp(48px,7vw,96px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:24px}
+h2{font-size:clamp(32px,4.5vw,64px);font-weight:700;line-height:1;letter-spacing:-.025em;margin-bottom:20px}
+h3{font-size:clamp(18px,2.2vw,28px);font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
+.lead{font-size:clamp(16px,1.8vw,22px);line-height:1.55;color:var(--muted);max-width:640px}
+.lead.dark{color:#aaa}
+p{font-size:clamp(14px,1.4vw,17px);line-height:1.65;color:var(--muted)}
+
+/* ── GRID HELPERS ── */
+.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);align-items:start}
+.cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.5vw,40px)}
+.cols-4{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,32px)}
+
+/* ── CARDS ── */
+.card{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:clamp(20px,2.5vw,36px)}
+.card.dark-card{background:#1a1a1a;border-color:#333}
+.card .tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.card h3{font-size:clamp(16px,1.8vw,22px);margin-bottom:8px}
+.card p{font-size:13px;line-height:1.6;color:var(--muted)}
+.card.dark-card p{color:#777}
+
+/* ── BEFORE/AFTER ── */
+.ba-col{padding:clamp(24px,3vw,48px);border-radius:10px}
+.ba-col.before{background:#f0f0f0;border:1px solid var(--line)}
+.ba-col.after{background:var(--ink);color:var(--paper)}
+.ba-col .ba-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;opacity:.5}
+.ba-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.ba-col ul li{font-size:clamp(13px,1.3vw,16px);line-height:1.5;padding-left:20px;position:relative}
+.ba-col ul li::before{content:'—';position:absolute;left:0;opacity:.4}
+.ba-col.after ul li::before{opacity:.3}
+
+/* ── DORES TABLE ── */
+.dores{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.dore-row{display:grid;grid-template-columns:1fr 1.2fr 1.2fr;border-bottom:1px solid var(--line);transition:background .15s}
+.dore-row:last-child{border-bottom:none}
+.dore-row.header{background:var(--ink);color:var(--paper)}
+.dore-row.header .dc{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.6}
+.dore-row:not(.header):hover{background:#f9f9f9}
+.dc{padding:clamp(12px,1.5vw,20px) clamp(14px,1.8vw,24px);font-size:clamp(12px,1.2vw,14px);line-height:1.5}
+.dc strong{display:block;font-size:clamp(13px,1.3vw,15px);font-weight:600;margin-bottom:4px;color:var(--ink)}
+.dore-row.header .dc{color:#fff}
+.dc .ok{color:#2e7d32;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-family:'Space Mono',monospace}
+.dc .next{color:#888;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-family:'Space Mono',monospace}
+
+/* ── ROADMAP ── */
+.roadmap-col{display:flex;flex-direction:column;gap:12px}
+.roadmap-col .rh{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.ritem{padding:14px 16px;border-radius:8px;border:1px solid var(--line);background:#fff}
+.ritem .ri-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.ritem .ri-name{font-size:13px;font-weight:600;color:var(--ink)}
+.ritem .ri-cx{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap}
+.ritem .ri-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.ritem.h2-item{background:#f9f9f9}
+.ritem.h3-item{background:#f4f4f4}
+
+/* ── QUOTE ── */
+.blockquote{border-left:3px solid var(--paper);padding-left:clamp(20px,3vw,40px);margin:clamp(20px,3vw,40px) 0}
+.blockquote p{font-size:clamp(18px,2.2vw,28px);font-weight:600;line-height:1.4;color:var(--paper);opacity:.9}
+
+/* ── CTA ── */
+.cta-box{background:#fff;color:var(--ink);border-radius:12px;padding:clamp(24px,3.5vw,48px);display:inline-flex;flex-direction:column;gap:12px;max-width:480px}
+.cta-box .cta-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.cta-box .cta-action{font-size:clamp(18px,2vw,24px);font-weight:700;color:var(--ink);line-height:1.3}
+.cta-box .cta-sub{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* ── NAV ── */
+.nav{position:fixed;bottom:32px;right:clamp(24px,4vw,64px);display:flex;align-items:center;gap:16px;z-index:100}
+.nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);backdrop-filter:blur(8px);color:#fff;cursor:pointer;display:grid;place-items:center;transition:all .2s;font-size:16px}
+.nav-btn:hover{background:rgba(255,255,255,.18)}
+.nav-count{font-family:'Space Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.1em}
+
+/* ── PROGRESS ── */
+.progress{position:fixed;bottom:0;left:0;height:2px;background:#fff;transition:width .4s ease;z-index:200}
+
+/* ── UTIL ── */
+.mono{font-family:'Space Mono',monospace}
+.gap{margin-top:clamp(16px,2vw,32px)}
+.site-url{font-family:'Space Mono',monospace;font-size:clamp(12px,1.2vw,15px);color:#fff;opacity:.5;margin-top:16px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .cols-2,.cols-3,.cols-4{grid-template-columns:1fr}
+  .dore-row{grid-template-columns:1fr}
+  .dore-row.header{display:none}
+  .dc{border-bottom:1px solid var(--line)}
+  .dc:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- 01 CAPA -->
+  <div class="slide dark active">
+    <div class="label">A Fábrica — Alkimia Produções</div>
+    <h1>Do tecido<br>à tela.</h1>
+    <p class="lead dark">O site que representa a Alkimia do jeito que o trabalho de vocês merece.</p>
+    <div class="site-url">guarucriativo-ux.github.io/A-fabrica</div>
+  </div>
+
+  <!-- 02 AGENDA -->
+  <div class="slide light">
+    <div class="label">O que vamos ver</div>
+    <div class="cols-2">
+      <div>
+        <h2>Quatro pontos.<br>Dez minutos.</h2>
+        <p class="lead gap">Nada além do que importa para o negócio da Alkimia agora.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;padding-top:8px">
+        <div class="card">
+          <div class="tag">01</div>
+          <h3>Antes x depois</h3>
+          <p>O que mudou em quatro pontos concretos.</p>
+        </div>
+        <div class="card">
+          <div class="tag">02</div>
+          <h3>Dores resolvidas</h3>
+          <p>O que o site resolve no negócio real da Alkimia.</p>
+        </div>
+        <div class="card">
+          <div class="tag">03</div>
+          <h3>O que vem a seguir</h3>
+          <p>Catálogo, conteúdo, tráfego, relacionamento.</p>
+        </div>
+        <div class="card">
+          <div class="tag">04</div>
+          <h3>Próximo passo</h3>
+          <p>Uma conversa, não um contrato.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 ANTES X DEPOIS -->
+  <div class="slide soft">
+    <div class="label">A mudança</div>
+    <h2 style="margin-bottom:clamp(20px,3vw,40px)">Antes x depois.</h2>
+    <div class="cols-2">
+      <div class="ba-col before">
+        <div class="ba-label">Antes — construtor genérico (Wix / similar)</div>
+        <ul>
+          <li>Template compartilhado com milhares de outros sites</li>
+          <li>Identidade visual zero — não era Alkimia, era padrão</li>
+          <li>Mensalidade recorrente — o código nunca foi do Gustavo</li>
+          <li>SEO limitado pela plataforma</li>
+          <li>Mobile quebrado ou secundário</li>
+          <li>Sem fundação para tráfego pago</li>
+        </ul>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label">Depois — site próprio da Alkimia</div>
+        <ul>
+          <li>100% customizado — derivado da marca real</li>
+          <li>Identidade P&B, Archivo, product-forward</li>
+          <li>Código é patrimônio do Gustavo — sem mensalidade</li>
+          <li>GitHub Pages gratuito de forma permanente</li>
+          <li>Mobile-first, construído do celular pra fora</li>
+          <li>Rastreamento pronto para campanhas futuras</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 DORES — visão geral -->
+  <div class="slide light">
+    <div class="label">O que foi resolvido</div>
+    <h2 style="margin-bottom:clamp(16px,2.5vw,36px)">Oito dores.<br>Parte delas já fechadas.</h2>
+    <div class="dores">
+      <div class="dore-row header">
+        <div class="dc">Dor</div>
+        <div class="dc">O site novo resolve</div>
+        <div class="dc">Próximo passo</div>
+      </div>
+      <div class="dore-row">
+        <div class="dc"><strong>Presença digital fraca</strong>Visual genérica, sem identidade</div>
+        <div class="dc"><span class="ok">Resolvido</span><br>P&B alto contraste, Archivo, product-forward</div>
+        <div class="dc"><span class="next">H2</span><br>Domínio próprio + Google Business</div>
+      </div>
+      <div class="dore-row">
+        <div class="dc"><strong>Sem portfólio navegável</strong>Trabalho só no boca a boca</div>
+        <div class="dc"><span class="ok">Resolvido</span><br>Estrutura de portfólio com curadoria editorial</div>
+        <div class="dc"><span class="next">H1</span><br>Fotografia de peças em contexto de set</div>
+      </div>
+      <div class="dore-row">
+        <div class="dc"><strong>Sem processo visível</strong>Cliente inseguro antes de pedir orçamento</div>
+        <div class="dc"><span class="ok">Resolvido</span><br>Seção de processo em 4 etapas no site</div>
+        <div class="dc"><span class="next">H1</span><br>FAQ técnico: mínimo, prazo, arte</div>
+      </div>
+      <div class="dore-row">
+        <div class="dc"><strong>Sem credibilidade editorial</strong>Site não combinava com Canon e Shure</div>
+        <div class="dc"><span class="ok">Resolvido</span><br>Tom e layout em paridade com os clientes atendidos</div>
+        <div class="dc"><span class="next">H2</span><br>Cases de cliente com resultado real</div>
+      </div>
+      <div class="dore-row">
+        <div class="dc"><strong>Ausência no conteúdo social</strong>Instagram sem linha visual definida</div>
+        <div class="dc"><span class="ok">Resolvido</span><br>Site serve como referência visual para o Instagram</div>
+        <div class="dc"><span class="next">H3</span><br>Calendário de conteúdo mensal</div>
+      </div>
+      <div class="dore-row">
+        <div class="dc"><strong>Sem tráfego pago</strong>Crescimento só por indicação</div>
+        <div class="dc"><span class="ok">Fundação pronta</span><br>Rastreamento e estrutura técnica instalados</div>
+        <div class="dc"><span class="next">H3</span><br>Meta Ads para audiovisual SP</div>
+      </div>
+      <div class="dore-row">
+        <div class="dc"><strong>Sem catálogo interativo</strong>Primeiro contato sempre começa do zero</div>
+        <div class="dc"><span class="next">Em aberto</span><br>Estrutura do site comporta catálogo</div>
+        <div class="dc"><span class="next">H1</span><br>Página de catálogo com linhas e specs</div>
+      </div>
+      <div class="dore-row">
+        <div class="dc"><strong>Sem gestão de relacionamento</strong>Lead se perde no e-mail ou WhatsApp</div>
+        <div class="dc"><span class="ok">Início feito</span><br>Formulário estruturado capturando dados</div>
+        <div class="dc"><span class="next">H3</span><br>CRM integrado ao formulário</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 ROADMAP -->
+  <div class="slide soft">
+    <div class="label">O que vem a seguir</div>
+    <h2 style="margin-bottom:clamp(16px,2.5vw,36px)">Três horizontes.<br>Zero pressa.</h2>
+    <div class="cols-3">
+      <div class="roadmap-col">
+        <div class="rh">H1 — Próximo mês</div>
+        <div class="ritem">
+          <div class="ri-top"><span class="ri-name">Catálogo de peças</span><span class="ri-cx">P</span></div>
+          <div class="ri-desc">Página com linhas da Alkimia — tecido, personalização, mínimo, prazo</div>
+        </div>
+        <div class="ritem">
+          <div class="ri-top"><span class="ri-name">Hero com vídeo de processo</span><span class="ri-cx">M</span></div>
+          <div class="ri-desc">15–30s de making-of substituindo a imagem estática do topo</div>
+        </div>
+        <div class="ritem">
+          <div class="ri-top"><span class="ri-name">Otimização WebP</span><span class="ri-cx">P</span></div>
+          <div class="ri-desc">Site 40–60% mais rápido no celular</div>
+        </div>
+        <div class="ritem">
+          <div class="ri-top"><span class="ri-name">Favicon e OG tags</span><span class="ri-cx">P</span></div>
+          <div class="ri-desc">Todo link enviado vira cartão visual com identidade da Alkimia</div>
+        </div>
+      </div>
+      <div class="roadmap-col">
+        <div class="rh">H2 — 1 a 3 meses</div>
+        <div class="ritem h2-item">
+          <div class="ri-top"><span class="ri-name">Página de case de cliente</span><span class="ri-cx">M</span></div>
+          <div class="ri-desc">Um trabalho real vira argumento de venda para novos clientes</div>
+        </div>
+        <div class="ritem h2-item">
+          <div class="ri-top"><span class="ri-name">Feed do Instagram integrado</span><span class="ri-cx">P</span></div>
+          <div class="ri-desc">Site sempre atualizado sem esforço extra</div>
+        </div>
+        <div class="ritem h2-item">
+          <div class="ri-top"><span class="ri-name">Formulário estruturado</span><span class="ri-cx">M</span></div>
+          <div class="ri-desc">Lead chega com as informações certas — sem vai-e-vem no WhatsApp</div>
+        </div>
+        <div class="ritem h2-item">
+          <div class="ri-top"><span class="ri-name">Domínio próprio</span><span class="ri-cx">P</span></div>
+          <div class="ri-desc">alkimia.com.br — endereço profissional em proposta e cartão</div>
+        </div>
+      </div>
+      <div class="roadmap-col">
+        <div class="rh">H3 — 3 a 6 meses</div>
+        <div class="ritem h3-item">
+          <div class="ri-top"><span class="ri-name">Meta Ads</span><span class="ri-cx">G</span></div>
+          <div class="ri-desc">Campanhas para "uniforme audiovisual SP" — escala além da indicação</div>
+        </div>
+        <div class="ritem h3-item">
+          <div class="ri-top"><span class="ri-name">Calendário de conteúdo</span><span class="ri-cx">M</span></div>
+          <div class="ri-desc">8–12 peças por mês no Instagram com linguagem unificada</div>
+        </div>
+        <div class="ritem h3-item">
+          <div class="ri-top"><span class="ri-name">WhatsApp Business</span><span class="ri-cx">M</span></div>
+          <div class="ri-desc">Lead do formulário entra direto no WhatsApp com contexto</div>
+        </div>
+        <div class="ritem h3-item">
+          <div class="ri-top"><span class="ri-name">CRM integrado</span><span class="ri-cx">G</span></div>
+          <div class="ri-desc">Registro e acompanhamento de todos os leads — sem perder ninguém</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 A FÁBRICA — posicionamento -->
+  <div class="slide dark">
+    <div class="label">Por que a A Fábrica</div>
+    <div style="max-width:780px">
+      <div class="blockquote">
+        <p>"A diferença entre uma agência convencional e a A Fábrica é a mesma diferença entre um uniforme genérico de gráfica e um uniforme feito para a Canon."</p>
+      </div>
+      <div class="gap" style="display:flex;flex-direction:column;gap:16px">
+        <p style="color:#aaa;font-size:clamp(15px,1.6vw,19px);line-height:1.7">O site novo não é o produto final — é a fundação. O que a A Fábrica entrega não é design ou código: é uma confecção de comunicação com o mesmo rigor que o Gustavo aplica no tecido, no bordado e no prazo.</p>
+        <p style="color:#666;font-size:clamp(14px,1.4vw,17px);line-height:1.7">Cada peça — texto, visual, campanha, conteúdo — segue um processo, tem aprovação, tem acabamento. A Alkimia já tem reputação e carteira. O que falta é um sistema de comunicação que trabalhe com a mesma consistência que o Gustavo coloca em cada entrega.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 FECHAMENTO / CTA -->
+  <div class="slide dark">
+    <div class="label">Próximo passo</div>
+    <div class="cols-2" style="align-items:center">
+      <div>
+        <h2 style="font-size:clamp(36px,5vw,72px)">O site está<br>no ar.</h2>
+        <p style="color:#777;font-size:clamp(14px,1.5vw,18px);line-height:1.7;margin-top:16px;max-width:400px">O que a gente define agora não é contrato — é o que faz mais sentido para a Alkimia nos próximos sessenta dias.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="cta-box">
+          <div class="cta-label">Opção A</div>
+          <div class="cta-action">Catálogo interativo<br>+ domínio próprio</div>
+          <div class="cta-sub">Fundação completa no próximo mês. Alkimia com endereço e vitrine prontos para qualquer cliente.</div>
+        </div>
+        <div class="cta-box">
+          <div class="cta-label">Opção B</div>
+          <div class="cta-action">Conteúdo Instagram<br>+ estratégia social</div>
+          <div class="cta-sub">Linha visual unificada, 8–12 peças por mês, Instagram que reforça o mesmo nível do site.</div>
+        </div>
+        <div class="cta-box">
+          <div class="cta-label">Opção C</div>
+          <div class="cta-action">Levantamento completo<br>de prioridades</div>
+          <div class="cta-sub">Reunião de 30 minutos para mapear o que tem mais peso agora e montar um plano na ordem certa.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn" id="btnPrev" onclick="go(-1)">&#8592;</button>
+  <span class="nav-count" id="navCount">1 / 7</span>
+  <button class="nav-btn" id="btnNext" onclick="go(1)">&#8594;</button>
+</div>
+<div class="progress" id="progress"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+
+function show(n){
+  slides[cur].classList.remove('active');
+  cur = (n + total) % total;
+  slides[cur].classList.add('active');
+  document.getElementById('navCount').textContent = (cur+1)+' / '+total;
+  document.getElementById('progress').style.width = ((cur+1)/total*100)+'%';
+}
+
+function go(dir){ show(cur + dir); }
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') go(1);
+  if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(-1);
+});
+
+// touch
+let tx = 0;
+document.addEventListener('touchstart', e => tx = e.touches[0].clientX, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if(Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+});
+
+show(0);
+</script>
+</body>
+</html>

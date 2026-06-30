@@ -1,14 +1,36 @@
-# CLIENTE — c000 · A Fábrica (interno)
+# CLIENTE — c000 · Guaru Estúdio (interno)
 
-A fábrica é cliente de si mesma. Marcos é, ao mesmo tempo, CEO/aprovador e dono do briefing interno.
+A fábrica É o Guaru Estúdio. Marcos é dono, CEO e aprovador de tudo.
 
-## Dados (preencher/confirmar)
-- Nome da empresa: _A Fábrica_ (confirmar nome oficial / se usa "Guaru Estúdio")
-- Responsável: Marcos
+## Dados
+- Nome comercial: **Guaru Estúdio**
+- Instagram: @guaruestudio
 - E-mail: guarucriativo@gmail.com
-- Site: _a construir (ver p002-site)_
-- Posicionamento: agência operada por IA — resolve dores de empreendedores em múltiplas frentes (lead, tráfego, design, conteúdo, sites, sistemas, automações, CRM). Vende resultado, não horas.
+- Domínio: tem (a confirmar URL)
+- Facebook: tem
+- Responsável: Marcos
 
-## Notas
-- Identidade da fábrica → ver `IDENTIDADE.md` (a construir no p001-identidade).
-- Projetos internos rodam pelo MESMO fluxo dos clientes (Brief → Discovery → Plano → Produção → QA), com portões do Marcos.
+## Posicionamento (validado pelo agente-organizer)
+Agência de design gráfico + execução digital para PMEs.
+Gap explorado: nenhuma agência combina design estratégico + tráfego pago + preço justo + agilidade.
+Tagline candidata: "Design que vende. Execução que cresce."
+
+## Ativos disponíveis
+- Logo: SIM (Marcos tem — a receber)
+- Paleta de cores: SIM (Marcos tem — a receber)
+- Referências visuais: SIM (Marcos tem — a receber)
+- Case autorizado: Alkimia Produções ✓
+
+## CRM
+Uso interno — controle de clientes, finanças, pedidos, entregas. NÃO é funil de vendas externo.
+
+## Projetos
+- p001-identidade — brand voice + copy fundacional + manual visual
+- p002-site — site institucional completo
+- p003-crm — sistema interno de gestão (clientes, finanças, pedidos)
+- p004-instagram — estratégia + 30 posts prontos + templates
+- p005-trafego — Meta Ads + Google Ads
+- p006-comercial — pacotes, preços, pitch deck, proposta template
+
+## Prioridade imediata
+Instagram + Site simultâneos → captar clientes o mais rápido possível.

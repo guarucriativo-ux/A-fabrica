@@ -1,0 +1,30 @@
+/* ─── TOKENS ─────────────────────────── */
+:root {
+  --lime: #CCFF00;
+  --black: #0A0A0A;
+  --off-white: #F0F0EC;
+  --gray-light: #E8E8E4;
+  --gray-mid: #1A1A1A;
+  --gray-text: #555550;
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* ─── RESET ──────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: auto; }
+body {
+  font-family: var(--font-body);
+  background: var(--off-white);
+  color: var(--black);
+  overflow-x: hidden;
+  cursor: none;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+button { cursor: none; border: none; background: none; font-family: inherit; }
+
+@media (max-width: 768px) {
+  body { cursor: auto; }
+  button { cursor: pointer; }
+}
