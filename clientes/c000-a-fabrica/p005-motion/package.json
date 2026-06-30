@@ -1,0 +1,20 @@
+{
+  "name": "p005-motion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "preview": "remotion preview src/Root.jsx",
+    "render": "remotion render src/Root.jsx P1-FraseImpacto out/P1-FraseImpacto.mp4",
+    "render:still": "remotion still src/Root.jsx P1-FraseImpacto out/P1-still.png --frame=80"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@remotion/cli": "^4.0.484",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.484"
+  }
+}
