@@ -1,4 +1,4 @@
-import { Composition } from 'remotion'
+import { Composition, registerRoot } from 'remotion'
 import { P1FraseImpacto, p1Config } from './templates/P1-FraseImpacto'
 
 export const RemotionRoot = () => {
@@ -15,3 +15,5 @@ export const RemotionRoot = () => {
     </>
   )
 }
+
+registerRoot(RemotionRoot)
