@@ -193,7 +193,8 @@
       "Bash(node -e \"const pkg = require\\('./node_modules/lenis/package.json'\\); console.log\\('lenis:', pkg.version\\)\")",
       "mcp__Claude_in_Chrome__tabs_context_mcp",
       "mcp__Claude_in_Chrome__tabs_create_mcp",
-      "mcp__Claude_in_Chrome__find"
+      "mcp__Claude_in_Chrome__find",
+      "mcp__magic-21st__21st_magic_component_inspiration"
     ]
   }
 }
