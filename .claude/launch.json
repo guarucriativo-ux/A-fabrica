@@ -14,5 +14,12 @@
       "cwd": "clientes/c000-a-fabrica/p002-site",
       "port": 5173
     }
+  ,{
+      "name": "guaru-app",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", ".", "-l", "4444"],
+      "cwd": "Maquina de Marketplaces",
+      "port": 4444
+    }
   ]
 }

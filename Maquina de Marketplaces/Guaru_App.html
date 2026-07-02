@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guaru App</title>
+  <!-- Inter font — não-bloqueante -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
+  <!-- CSS -->
+  <link rel="stylesheet" href="design-tokens.css">
+  <link rel="stylesheet" href="guaru-visual-v2.css">
+
+  <!-- ERP embutido: ocultar connectionArea automaticamente -->
+  <script>
+    if (typeof ERP_EMBEDDED !== 'undefined' && ERP_EMBEDDED) {
+      document.addEventListener('DOMContentLoaded', function () {
+        var area = document.getElementById('connectionArea');
+        if (area) area.style.display = 'none';
+      });
+    }
+  </script>
+</head>
+<body>
+
+<!-- Skip link — deve ser o primeiro elemento focável do body -->
+<a href="#content" class="skip-link">Pular para o conteúdo principal</a>
+
+<!-- =========================================================================
+     PIN MODAL — copiado exatamente do HTML original
+     ========================================================================= -->
+<style>
+#pin-modal {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(15,10,30,0.96);
+  display: flex; align-items: center; justify-content: center;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+#pin-box {
+  background: #1A1030; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 40px 36px; width: 320px; max-width: 90vw;
+  text-align: center;
+}
+#pin-logo { width: 52px; height: 52px; background: #5B3FA0; border-radius: 14px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: #fff; }
+#pin-title { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+#pin-subtitle { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+#pin-input { width: 100%; box-sizing: border-box; padding: 14px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #fff; font-size: 20px; letter-spacing: 6px; text-align: center; outline: none; margin-bottom: 16px; }
+#pin-input:focus-visible { border-color: #5B3FA0; background: rgba(91,63,160,0.15); outline: 3px solid #7C5CD6; outline-offset: 2px; }
+#pin-input:focus { border-color: #5B3FA0; background: rgba(91,63,160,0.15); }
+#pin-btn { width: 100%; padding: 13px; background: #5B3FA0; border: none; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+#pin-btn:hover { background: #7C5CD6; }
+#pin-btn:focus-visible { outline: 3px solid #B47BFF; outline-offset: 3px; }
+#pin-error { font-size: 12px; color: #F05A4F; margin-top: 12px; min-height: 18px; }
+#pin-reset { font-size: 11px; color: rgba(255,255,255,0.5); cursor: pointer; margin-top: 16px; display: block; background: none; border: none; }
+#pin-reset:hover { color: rgba(255,255,255,0.75); }
+#pin-reset:focus-visible { outline: 3px solid #B47BFF; outline-offset: 3px; border-radius: 4px; }
+</style>
+<script>
+(async function() {
+  async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  const stored = localStorage.getItem('guaru-pin-hash');
+  const isFirst = !stored;
+
+  const modal = document.createElement('div');
+  modal.id = 'pin-modal';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('aria-labelledby', 'pin-title');
+  modal.setAttribute('aria-describedby', 'pin-subtitle');
+  modal.innerHTML = `
+    <div id="pin-box">
+      <div id="pin-logo" aria-hidden="true">G</div>
+      <h1 id="pin-title" style="font-size:18px;font-weight:600;color:#fff;margin-bottom:6px;">${isFirst ? 'Defina seu PIN' : 'Guaru App'}</h1>
+      <p id="pin-subtitle">${isFirst ? 'Crie um PIN numérico para proteger seus dados' : 'Digite seu PIN para acessar'}</p>
+      <input id="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="••••" autofocus aria-label="${isFirst ? 'Novo PIN numérico' : 'PIN de acesso'}" aria-required="true">
+      <button id="pin-btn">${isFirst ? 'Criar PIN' : 'Entrar'}</button>
+      <div id="pin-error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+      ${!isFirst ? '<button id="pin-reset" onclick="if(confirm(\'Redefinir PIN? Você precisará criar um novo.\')) { localStorage.removeItem(\'guaru-pin-hash\'); location.reload(); }">Esqueci meu PIN</button>' : ''}
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const input = document.getElementById('pin-input');
+  const btn = document.getElementById('pin-btn');
+  const errEl = document.getElementById('pin-error');
+
+  /* --- Focus trap no modal PIN --- */
+  function getFocusables() {
+    return Array.from(modal.querySelectorAll(
+      'input, button, [tabindex]:not([tabindex="-1"])'
+    )).filter(el => !el.disabled);
+  }
+
+  modal.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+      const focusables = getFocusables();
+      const first = focusables[0];
+      const last  = focusables[focusables.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    }
+  });
+
+  async function handlePin() {
+    const val = input.value.trim();
+    if (val.length < 4) { errEl.textContent = 'PIN deve ter pelo menos 4 dígitos.'; return; }
+    const hash = await sha256(val);
+    if (isFirst) {
+      localStorage.setItem('guaru-pin-hash', hash);
+      modal.remove();
+    } else {
+      if (hash === stored) {
+        modal.remove();
+      } else {
+        errEl.textContent = 'PIN incorreto. Tente novamente.';
+        input.value = '';
+        input.focus();
+      }
+    }
+  }
+
+  btn.addEventListener('click', handlePin);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') handlePin(); });
+})();
+</script>
+
+<!-- =========================================================================
+     LAYOUT PRINCIPAL
+     ========================================================================= -->
+<div class="app-layout" id="appLayout">
+
+  <!-- SIDEBAR (desktop >= 1024px) -->
+  <nav class="sidebar" id="sidebar" aria-label="Navegação principal">
+
+    <div class="sidebar-logo">
+      <div class="logo-mark">G</div>
+      <span class="logo-text">Guaru App</span>
+    </div>
+
+    <div class="sidebar-nav">
+
+      <button class="navitem active" data-tab="dashboard" aria-label="Dashboard" aria-current="page">
+        <!-- Ícone Dashboard (gráfico área) — sidebar 16px -->
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <line x1="2" y1="12" x2="14" y2="12"/>
+          <polyline points="2,10 4,7 7,9 10,5 12,6 14,3"/>
+          <polygon points="2,10 4,7 7,9 10,5 12,6 14,3 14,12 2,12" fill="currentColor" fill-opacity="0.15" stroke="none"/>
+          <circle cx="4"  cy="7" r="1" fill="currentColor" stroke="none"/>
+          <circle cx="10" cy="5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="nav-label">Dashboard</span>
+      </button>
+
+      <button class="navitem" data-tab="fornecedores" aria-label="Fornecedores">
+        <!-- Ícone Fornecedores (caixa/package) -->
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect x="2" y="5" width="12" height="9" rx="1.5"/>
+          <path d="M2 5 L5 2 L11 2 L14 5"/>
+          <line x1="8" y1="5" x2="8" y2="14"/>
+          <line x1="5" y1="2" x2="5" y2="5"/>
+          <line x1="11" y1="2" x2="11" y2="5"/>
+        </svg>
+        <span class="nav-label">Fornecedores</span>
+      </button>
+
+      <button class="navitem" data-tab="clientes" aria-label="Clientes">
+        <!-- Ícone Clientes (pessoa) -->
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="5" r="3"/>
+          <path d="M2 14 C2 11 4.5 9 8 9 C11.5 9 14 11 14 14"/>
+        </svg>
+        <span class="nav-label">Clientes</span>
+      </button>
+
+      <button class="navitem" data-tab="produtos" aria-label="Produtos">
+        <!-- Ícone Produtos (tag) -->
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <path d="M2 2 L9 2 L14 7 L8 13 L3 8 Z"/>
+          <circle cx="5.5" cy="5.5" r="1.25"/>
+        </svg>
+        <span class="nav-label">Produtos</span>
+      </button>
+
+      <button class="navitem" data-tab="vendas" aria-label="Vendas">
+        <!-- Ícone Vendas (carrinho) -->
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <path d="M1 1 L3 1 L5 9 L12 9 L14 4 L4 4"/>
+          <circle cx="6"  cy="12" r="1.5"/>
+          <circle cx="11" cy="12" r="1.5"/>
+        </svg>
+        <span class="nav-label">Vendas</span>
+      </button>
+
+      <button class="navitem" data-tab="apagar" aria-label="Contas a Pagar">
+        <!-- Ícone A Pagar (seta baixo + círculo) -->
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="6"/>
+          <line x1="8" y1="4" x2="8" y2="11"/>
+          <polyline points="5,9 8,12 11,9"/>
+        </svg>
+        <span class="nav-label">A Pagar</span>
+      </button>
+
+      <button class="navitem" data-tab="areceber" aria-label="Contas a Receber">
+        <!-- Ícone A Receber (seta cima + círculo) -->
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="6"/>
+          <line x1="8" y1="12" x2="8" y2="5"/>
+          <polyline points="5,7 8,4 11,7"/>
+        </svg>
+        <span class="nav-label">A Receber</span>
+      </button>
+
+    </div><!-- .sidebar-nav -->
+
+    <div class="sidebar-footer">
+      <span id="filestatus" class="synctag off"><span class="dot"></span>Offline</span>
+    </div>
+
+  </nav><!-- .sidebar -->
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="main-wrapper">
+
+    <!-- TOPBAR -->
+    <header class="topbar" id="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn" aria-label="Menu" style="display:none">
+          <!-- Hamburger -->
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <line x1="3" y1="6"  x2="17" y2="6"/>
+            <line x1="3" y1="10" x2="17" y2="10"/>
+            <line x1="3" y1="14" x2="17" y2="14"/>
+          </svg>
+        </button>
+        <div class="greeting">
+          <span class="greeting-hello">Olá, Marcos 👋</span>
+          <span class="greeting-date" id="greetingDate"></span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="search-wrap">
+          <button class="search-icon-btn" id="searchToggle" aria-label="Buscar" aria-expanded="false" aria-controls="searchBox">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <circle cx="7.5" cy="7.5" r="5.5"/>
+              <line x1="12" y1="12" x2="16" y2="16"/>
+            </svg>
+          </button>
+          <input type="text" id="searchBox" class="search-input" placeholder="Buscar..." autocomplete="off" aria-label="Buscar">
+        </div>
+
+        <div id="syncbadge" aria-live="polite" aria-atomic="true"></div>
+
+        <button id="themeToggle" title="Alternar tema" aria-label="Alternar tema claro/escuro">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="3"/>
+            <path d="M8 1v1M8 14v1M1 8h1M14 8h1M3.22 3.22l.7.7M12.08 12.08l.7.7M12.78 3.22l-.7.7M3.92 12.08l-.7.7"/>
+          </svg>
+        </button>
+      </div>
+    </header><!-- .topbar -->
+
+    <!-- ÁREA DE CONEXÃO (hidden quando ERP embutido) -->
+    <div id="connectionArea" class="connection-area glass-card" style="display:none">
+      <h2>Conectar ao ERP</h2>
+      <p>Execute <code>atualizar-erp.ps1</code> para carregar os dados automaticamente.</p>
+      <div class="connection-actions">
+        <button id="connectBtn" class="action-pill primary">Conectar via script</button>
+        <label class="action-pill" id="manualBtn">
+          Carregar manualmente
+          <input type="file" id="fileInput" accept=".xlsx" style="display:none">
+        </label>
+      </div>
+    </div>
+
+    <!-- FILTERBAR -->
+    <div id="filterbar" class="filterbar"></div>
+
+    <!-- TÍTULO DA ABA (mantido para app.js — oculto visualmente) -->
+    <h1 id="tab-title" class="tab-title">Dashboard</h1>
+
+    <!-- CONTEÚDO DINÂMICO -->
+    <main id="content" aria-live="polite">
+      <!-- Skeleton de carregamento inicial -->
+      <div id="skeleton-loader">
+        <div class="skeleton glass-card" style="height:160px;border-radius:var(--radius-xl);margin-bottom:var(--space-4)"></div>
+        <div class="skeleton-kpi-row">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+        <div class="skeleton-chart-row">
+          <div class="skeleton-chart"></div>
+          <div class="skeleton-chart"></div>
+        </div>
+      </div>
+    </main>
+
+  </div><!-- .main-wrapper -->
+
+</div><!-- .app-layout -->
+
+<!-- =========================================================================
+     BOTTOM NAV (mobile < 1024px)
+     ========================================================================= -->
+<nav class="bottom-nav" id="bottomNav" aria-label="Navegação mobile">
+
+  <!-- Dashboard -->
+  <button class="bnav-item navitem active" data-tab="dashboard" aria-label="Dashboard" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <line x1="3" y1="18" x2="21" y2="18"/>
+      <polyline points="3,15 6,10 10,13 14,7 18,9 21,5"/>
+      <polygon points="3,15 6,10 10,13 14,7 18,9 21,5 21,18 3,18" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+      <circle cx="6"  cy="10" r="1.5" fill="currentColor" stroke="none"/>
+      <circle cx="10" cy="13" r="1.5" fill="currentColor" stroke="none"/>
+      <circle cx="14" cy="7"  r="1.5" fill="currentColor" stroke="none"/>
+      <circle cx="18" cy="9"  r="1.5" fill="currentColor" stroke="none"/>
+    </svg>
+    <span class="bnav-label">Início</span>
+  </button>
+
+  <!-- Extrato (data-tab=vendas) -->
+  <button class="bnav-item navitem" data-tab="vendas" aria-label="Extrato">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="5" cy="8"  r="1.25" fill="currentColor" stroke="none"/>
+      <circle cx="5" cy="12" r="1.25" fill="currentColor" stroke="none"/>
+      <circle cx="5" cy="16" r="1.25" fill="currentColor" stroke="none"/>
+      <line x1="9"  y1="8"  x2="20" y2="8"/>
+      <line x1="9"  y1="12" x2="20" y2="12"/>
+      <line x1="9"  y1="16" x2="16" y2="16"/>
+    </svg>
+    <span class="bnav-label">Extrato</span>
+  </button>
+
+  <!-- FAB central (Lançar) -->
+  <button class="bnav-fab" id="fabAdd" aria-label="Novo lançamento">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="12" fill="white" fill-opacity="0.15"/>
+      <line x1="12" y1="6" x2="12" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="6"  y1="12" x2="18" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <!-- Contas (data-tab=apagar) -->
+  <button class="bnav-item navitem" data-tab="apagar" aria-label="Contas a Pagar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <rect x="2" y="6" width="20" height="14" rx="2"/>
+      <path d="M2 10 C2 8 4 6 6 6 L18 6 C20 6 22 8 22 10"/>
+      <path d="M16 13 a1.5 1.5 0 1 1 0 .01 Z" fill="currentColor" stroke="none"/>
+      <line x1="16" y1="10" x2="22" y2="10"/>
+    </svg>
+    <span class="bnav-label">Contas</span>
+    <span class="bnav-badge" id="bnavBadge" style="display:none" aria-label="Alertas"></span>
+  </button>
+
+  <!-- Mais (abre drawer) -->
+  <button class="bnav-more" id="bnavMore" aria-label="Mais módulos" aria-expanded="false" aria-controls="drawer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <rect x="3"  y="3"  width="7" height="7" rx="1.5"/>
+      <rect x="14" y="3"  width="7" height="7" rx="1.5"/>
+      <rect x="3"  y="14" width="7" height="7" rx="1.5"/>
+      <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+    </svg>
+    <span class="bnav-label">Mais</span>
+  </button>
+
+</nav><!-- .bottom-nav -->
+
+<!-- =========================================================================
+     DRAWER "Mais"
+     ========================================================================= -->
+<div class="drawer-overlay" id="drawerOverlay" style="display:none" role="dialog" aria-modal="true" aria-label="Menu completo">
+  <div class="drawer" id="drawer">
+    <div class="drawer-handle"></div>
+    <h3 class="drawer-title">Módulos</h3>
+    <div class="drawer-grid">
+
+      <button class="drawer-item navitem" data-tab="fornecedores" aria-label="Fornecedores">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="7" width="18" height="13" rx="2"/>
+          <path d="M3 7 L7.5 3 L16.5 3 L21 7"/>
+          <line x1="12" y1="7" x2="12" y2="20"/>
+          <line x1="7.5" y1="3" x2="7.5" y2="7"/>
+          <line x1="16.5" y1="3" x2="16.5" y2="7"/>
+        </svg>
+        <span>Fornecedores</span>
+      </button>
+
+      <button class="drawer-item navitem" data-tab="clientes" aria-label="Clientes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="7" r="4"/>
+          <path d="M3 21 C3 17 6.5 14 12 14 C17.5 14 21 17 21 21"/>
+        </svg>
+        <span>Clientes</span>
+      </button>
+
+      <button class="drawer-item navitem" data-tab="produtos" aria-label="Produtos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 3 L13 3 L21 11 L12 20 L4 12 Z"/>
+          <circle cx="8" cy="8" r="2"/>
+        </svg>
+        <span>Produtos</span>
+      </button>
+
+      <button class="drawer-item navitem" data-tab="areceber" aria-label="Contas a Receber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="12" y1="17" x2="12" y2="8"/>
+          <polyline points="8,11 12,7 16,11"/>
+        </svg>
+        <span>A Receber</span>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================================
+     ACTION SHEET (lançar)
+     ========================================================================= -->
+<div class="sheet-overlay" id="sheetOverlay" style="display:none" role="dialog" aria-modal="true" aria-label="Novo lançamento">
+  <div class="sheet" id="actionSheet">
+    <div class="sheet-handle"></div>
+    <h3 class="sheet-title">Novo Lançamento</h3>
+    <form id="lancForm" onsubmit="salvarLancamento(event)" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="lancTipo">Tipo</label>
+        <select id="lancTipo" class="filter-select form-input" onchange="atualizarFormLanc()">
+          <option value="apagar">Conta a Pagar</option>
+          <option value="areceber">Conta a Receber</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="lancData">Data</label>
+        <input type="date" id="lancData" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="labelDescLanc" for="lancDescricao">Descrição</label>
+        <input type="text" id="lancDescricao" class="form-input" placeholder="Ex: Aluguel, Shopee…" required>
+      </div>
+      <div class="form-group" id="grupoCategoriaLanc">
+        <label class="form-label" for="lancCategoria">Categoria</label>
+        <input type="text" id="lancCategoria" class="form-input" placeholder="Ex: Moradia, Marketing…">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="lancValor">Valor (R$)</label>
+        <input type="number" id="lancValor" class="form-input" step="0.01" min="0" placeholder="0.00" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="labelVencLanc" for="lancVencimento">Vencimento</label>
+        <input type="date" id="lancVencimento" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="lancStatus">Status</label>
+        <select id="lancStatus" class="filter-select form-input">
+          <option value="Pendente">Pendente</option>
+          <option value="Pago">Pago</option>
+          <option value="Mensal">Mensal</option>
+          <option value="Atrasado">Atrasado</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:20px">
+        <button type="button" class="action-pill"
+          style="flex:1;justify-content:center"
+          onclick="document.getElementById('sheetOverlay').style.display='none'">Cancelar</button>
+        <button type="submit" class="action-pill primary"
+          style="flex:2;justify-content:center">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- =========================================================================
+     SCRIPTS
+     ========================================================================= -->
+<script src="erp-data.js" onerror="window.ERP_EMBEDDED=null;console.log('erp-data.js não encontrado — aguardando carga manual.')"></script>
+<script src="xlsx.full.min.js"></script>
+<script src="chart.umd.min.js"></script>
+<script src="guaru-motion.js" defer onerror="console.log('guaru-motion.js opcional não encontrado.')"></script>
+<script src="guaru-sparkline.js" defer onerror="console.log('guaru-sparkline.js opcional não encontrado.')"></script>
+<script src="app.js"></script>
+
+<script>
+(function () {
+  /* --- Tema (preserva preferência salva; dark é o default do HTML) --- */
+  (function initTheme() {
+    var saved = localStorage.getItem('guaru-theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+    var btn = document.getElementById('themeToggle');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var current = document.documentElement.getAttribute('data-theme');
+        var next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('guaru-theme', next);
+      });
+    }
+  })();
+
+  /* --- Data no greeting --- */
+  var greetingDate = document.getElementById('greetingDate');
+  if (greetingDate) {
+    greetingDate.textContent = new Date().toLocaleDateString('pt-BR', {
+      weekday: 'long', day: 'numeric', month: 'long'
+    });
+  }
+
+  /* --- Search toggle (mobile expand) --- */
+  var searchToggle = document.getElementById('searchToggle');
+  var searchBox    = document.getElementById('searchBox');
+  if (searchToggle && searchBox) {
+    searchToggle.addEventListener('click', function () {
+      var isOpen = searchBox.classList.toggle('open');
+      if (isOpen) {
+        searchBox.focus();
+        searchToggle.setAttribute('aria-label', 'Fechar busca');
+        searchToggle.setAttribute('aria-expanded', 'true');
+      } else {
+        searchBox.value = '';
+        searchToggle.setAttribute('aria-label', 'Buscar');
+        searchToggle.setAttribute('aria-expanded', 'false');
+        // dispara re-render se app.js expôs renderView/render
+        if (typeof window.render === 'function') window.render();
+      }
+    });
+    // ESC fecha busca
+    searchBox.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        searchBox.classList.remove('open');
+        searchBox.value = '';
+        searchToggle.setAttribute('aria-label', 'Buscar');
+        searchToggle.setAttribute('aria-expanded', 'false');
+        searchToggle.focus();
+        if (typeof window.render === 'function') window.render();
+      }
+    });
+  }
+
+  /* --- Badge de vencimento no bottom nav --- */
+  document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(function () {
+      var badge = document.getElementById('bnavBadge');
+      var alertBanner = document.querySelector('.alert-banner');
+      if (alertBanner && badge) {
+        badge.textContent = '!';
+        badge.style.display = 'flex';
+      }
+    }, 2000);
+  });
+
+  /* --- Utilitário: focus trap genérico --- */
+  function makeFocusTrap(containerEl, triggerEl) {
+    function getFocusables() {
+      return Array.from(containerEl.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      ));
+    }
+    function trapKeydown(e) {
+      if (e.key !== 'Tab') return;
+      var focusables = getFocusables();
+      if (focusables.length === 0) { e.preventDefault(); return; }
+      var first = focusables[0];
+      var last  = focusables[focusables.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    }
+    return {
+      activate: function () {
+        containerEl.addEventListener('keydown', trapKeydown);
+        var focusables = getFocusables();
+        if (focusables.length > 0) focusables[0].focus();
+      },
+      deactivate: function () {
+        containerEl.removeEventListener('keydown', trapKeydown);
+        if (triggerEl) triggerEl.focus();
+      }
+    };
+  }
+
+  /* --- FAB → action sheet --- */
+  var fab = document.getElementById('fabAdd');
+  var sheetOverlay = document.getElementById('sheetOverlay');
+  var sheetTrap = sheetOverlay ? makeFocusTrap(sheetOverlay, fab) : null;
+  if (fab && sheetOverlay) {
+    fab.addEventListener('click', function () {
+      sheetOverlay.style.display = 'flex';
+      if (sheetTrap) sheetTrap.activate();
+    });
+  }
+  if (sheetOverlay) {
+    sheetOverlay.addEventListener('click', function (e) {
+      if (e.target === sheetOverlay) {
+        sheetOverlay.style.display = 'none';
+        if (sheetTrap) sheetTrap.deactivate();
+      }
+    });
+    // ESC fecha sheet
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sheetOverlay.style.display === 'flex') {
+        sheetOverlay.style.display = 'none';
+        if (sheetTrap) sheetTrap.deactivate();
+      }
+    });
+  }
+
+  /* --- Drawer "Mais" --- */
+  var bnavMore      = document.getElementById('bnavMore');
+  var drawerOverlay = document.getElementById('drawerOverlay');
+  var drawer        = document.getElementById('drawer');
+  var drawerTrap    = drawerOverlay ? makeFocusTrap(drawerOverlay, bnavMore) : null;
+
+  function openDrawer() {
+    if (!drawerOverlay || !drawer) return;
+    drawerOverlay.style.display = 'flex';
+    // micro delay para CSS transition funcionar
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        drawer.classList.add('open');
+        if (drawerTrap) drawerTrap.activate();
+      });
+    });
+    if (bnavMore) bnavMore.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeDrawer() {
+    if (!drawer || !drawerOverlay) return;
+    drawer.classList.remove('open');
+    drawer.addEventListener('transitionend', function hide() {
+      drawerOverlay.style.display = 'none';
+      drawer.removeEventListener('transitionend', hide);
+    });
+    if (drawerTrap) drawerTrap.deactivate();
+    if (bnavMore) bnavMore.setAttribute('aria-expanded', 'false');
+  }
+
+  if (bnavMore) bnavMore.addEventListener('click', openDrawer);
+
+  if (drawerOverlay) {
+    drawerOverlay.addEventListener('click', function (e) {
+      if (e.target === drawerOverlay) closeDrawer();
+    });
+  }
+
+  // Fechar drawer ao clicar em item e marcar aba ativa no bottom nav
+  if (drawer) {
+    drawer.querySelectorAll('.navitem').forEach(function (item) {
+      item.addEventListener('click', function () {
+        closeDrawer();
+        // Sincronizar estado ativo no bottom nav
+        document.querySelectorAll('.bottom-nav .bnav-item').forEach(function (b) {
+          b.classList.remove('active');
+          b.removeAttribute('aria-current');
+        });
+      });
+    });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawerOverlay && drawerOverlay.style.display === 'flex') {
+      closeDrawer();
+    }
+  });
+
+  /* --- Sincronizar estado ativo no bottom nav quando app.js ativa navitem --- */
+  // app.js usa querySelectorAll('.navitem') e altera .active
+  // Observar mudanças de classe nos navitems do bottom-nav para refletir aria-current
+  var bnavItems = document.querySelectorAll('.bottom-nav .bnav-item');
+  if (bnavItems.length > 0) {
+    var observer = new MutationObserver(function () {
+      bnavItems.forEach(function (item) {
+        if (item.classList.contains('active')) {
+          item.setAttribute('aria-current', 'page');
+        } else {
+          item.removeAttribute('aria-current');
+        }
+      });
+    });
+    bnavItems.forEach(function (item) {
+      observer.observe(item, { attributes: true, attributeFilter: ['class'] });
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>

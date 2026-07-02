@@ -16,3 +16,35 @@ clientes/*/Referencias visuais/*.PDF
 Thumbs.db
 .DS_Store
 desktop.ini
+
+# Guaru App — dados sensíveis (ficam local, não sobem ao git)
+Maquina de Marketplaces/**/*.xlsx
+Maquina de Marketplaces/**/*.xls
+Maquina de Marketplaces/**/*.pdf
+Maquina de Marketplaces/**/*.docx
+Maquina de Marketplaces/**/*.pptx
+Maquina de Marketplaces/**/__pycache__/
+Maquina de Marketplaces/**/backups/
+Maquina de Marketplaces/**/node_modules/
+Maquina de Marketplaces/01_Financeiro/Extratos_Brutos/
+Maquina de Marketplaces/Doc_CNPJ_MEI/
+Maquina de Marketplaces/Doc_Shopee/
+Maquina de Marketplaces/04_SKUs-e-Artes/*.png
+Maquina de Marketplaces/04_SKUs-e-Artes/*.jpg
+Maquina de Marketplaces/04_SKUs-e-Artes/*.JPG
+Maquina de Marketplaces/*.jpeg
+Maquina de Marketplaces/*.jpg
+
+# Chaves e dados sensíveis — nunca subir
+**/*key*.txt
+**/*keys*.txt
+**/*secret*.txt
+**/*token*.txt
+**/skills-lock.json
+clientes/c000-a-fabrica/continue-guaru/*.xlsx
+clientes/c000-a-fabrica/continue-guaru/Tabela de preços/*.xls
+clientes/c000-a-fabrica/continue-guaru/Tabela de preços/*.xlsx
+clientes/c000-a-fabrica/continue-guaru/Tabela de preços/*_files/
+clientes/c000-a-fabrica/continue-guaru/Tabela de preços/*.html
+clientes/c000-a-fabrica/continue-guaru/Tabela de preços/*.url
+clientes/c000-a-fabrica/continue-guaru/Tabela de preços/fotos-placeholder/
